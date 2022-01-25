@@ -11,7 +11,7 @@ hyperion <- read_csv(here('wwtp_pfa','data','hyperion.csv')) %>%
   filter(field_pt_name %in% c('5-MILE', 'RI-NORS', 'RI-NCOS', 'RI-NOS', 'RI-CWIS', 'RI-COS'),
          parvq == '=',
          units == 'NG/L') %>% 
-  mutate(wwtp = 'Los Angeles - Hyperion')
+  mutate(wwtp = 'Hyperion')
 
   for(i in 1:length(hyperion$field_pt_name)){
   
@@ -29,7 +29,7 @@ whittier <- read_csv(here('wwtp_pfa', 'data', 'whittier.csv')) %>%
   filter(field_pt_name %in% c('WN_DCL_TER', 'WN_RAW'),
          parvq == '=',
          units == "NG/L") %>% 
-  mutate(wwtp = 'Whittier - San Jose Creek')
+  mutate(wwtp = 'San Jose Creek')
 
   for(i in 1:length(whittier$field_pt_name)){
   
@@ -47,7 +47,7 @@ tillman <- read_csv(here('wwtp_pfa', 'data', 'tillman.csv')) %>%
   filter(field_pt_name %in% c('PW', 'RI'),
          parvq == '=',
          units == 'NG/L') %>% 
-  mutate(wwtp = 'Los Angeles - Tillman')
+  mutate(wwtp = 'Tillman')
 
   for(i in 1:length(tillman$field_pt_name)){
   
@@ -65,13 +65,49 @@ port <- read_csv(here('wwtp_pfa', 'data', 'portb.csv')) %>%
   filter(field_pt_name %in% c('EFFLUENT', 'RI'),
          parvq == '=',
          units == 'NG/L') %>% 
-  mutate(wwtp = 'Port of Long Beach - Los Angeles')
+  mutate(wwtp = 'Port of Long Beach')
 
-for(i in 1:length(port$field_pt_name)){
+  for(i in 1:length(port$field_pt_name)){
   
-  if(port$field_pt_name[i] == 'EFFLUENT'){
-    port$field_pt_name[i] = 'effluent'}
+    if(port$field_pt_name[i] == 'EFFLUENT'){
+      port$field_pt_name[i] = 'effluent'}
+  
+    else{
+      port$field_pt_name[i] = 'influent'}}
+
+
+### LA-Glendale 
+glendale <- read_csv(here('wwtp_pfa', 'data', 'glendale.csv')) %>% 
+  clean_names() %>% 
+  select(samp_date, field_pt_name, parameter:value, units) %>% 
+  filter(field_pt_name %in% c('EFFLUENT', 'RI'),
+         parvq == '=',
+         units == 'NG/L') %>% 
+  mutate(wwtp = 'Glendale')
+
+  for(i in 1:length(glendale$field_pt_name)){
+  
+    if(glendale$field_pt_name[i] == 'EFFLUENT'){
+      glendale$field_pt_name[i] = 'effluent'}
+  
+    else{
+      glendale$field_pt_name[i] = 'influent'}}
+
+
+### Michelson WWRF - Irvine
+irvine <- read_csv(here('wwtp_pfa', 'data', 'irvine.csv')) %>% 
+  clean_names() %>% 
+  select(samp_date, field_pt_name, parameter:value, units) %>% 
+  filter(field_pt_name %in% c('MWRP FINAL', 'MWRP INF'),
+         parvq == '=',
+         units == 'NG/L') %>% 
+  mutate(wwtp = 'Irvine')
+
+for(i in 1:length(irvine$field_pt_name)){
+  
+  if(irvine$field_pt_name[i] == 'MWRP FINAL'){
+    irvine$field_pt_name[i] = 'effluent'}
   
   else{
-    port$field_pt_name[i] = 'influent'}}
+    irvine$field_pt_name[i] = 'influent'}}
   
