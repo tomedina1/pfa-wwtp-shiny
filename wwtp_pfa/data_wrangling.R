@@ -103,11 +103,11 @@ irvine <- read_csv(here('wwtp_pfa', 'data', 'irvine.csv')) %>%
          units == 'NG/L') %>% 
   mutate(wwtp = 'Irvine')
 
-for(i in 1:length(irvine$field_pt_name)){
+  for(i in 1:length(irvine$field_pt_name)){
   
-  if(irvine$field_pt_name[i] == 'MWRP FINAL'){
-    irvine$field_pt_name[i] = 'effluent'}
+    if(irvine$field_pt_name[i] == 'MWRP FINAL'){
+      irvine$field_pt_name[i] = 'effluent'}
   
-  else{
-    irvine$field_pt_name[i] = 'influent'}}
+    else{
+      irvine$field_pt_name[i] = 'influent'}}
   
