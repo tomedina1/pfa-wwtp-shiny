@@ -57,4 +57,21 @@ tillman <- read_csv(here('wwtp_pfa', 'data', 'tillman.csv')) %>%
     else{
       tillman$field_pt_name[i] = 'influent'}}
 
+
+### Port of Long Beach (Los Angeles)
+port <- read_csv(here('wwtp_pfa', 'data', 'portb.csv')) %>% 
+  clean_names() %>% 
+  select(samp_date, field_pt_name, parameter:value, units) %>% 
+  filter(field_pt_name %in% c('EFFLUENT', 'RI'),
+         parvq == '=',
+         units == 'NG/L') %>% 
+  mutate(wwtp = 'Port of Long Beach - Los Angeles')
+
+for(i in 1:length(port$field_pt_name)){
+  
+  if(port$field_pt_name[i] == 'EFFLUENT'){
+    port$field_pt_name[i] = 'effluent'}
+  
+  else{
+    port$field_pt_name[i] = 'influent'}}
   
