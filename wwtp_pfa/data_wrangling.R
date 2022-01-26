@@ -200,3 +200,24 @@ palmdale <- read_csv(here('wwtp_pfa', 'data', 'palmdale.csv')) %>%
   
     else{
       palmdale$field_pt_name[i] = 'influent'}}
+
+
+### Goleta SD WWTP
+goleta <- read_csv(here('wwtp_pfa', 'data', 'goleta.csv')) %>% 
+  clean_names() %>% 
+  select(samp_date, field_pt_name, parameter:value, units) %>% 
+  filter(field_pt_name %in% c('FINAL EFF', 'INFLUENT'),
+         parvq == '=',
+         units == 'NG/L') %>% 
+  mutate(wwtp = 'Goleta')
+
+  for(i in 1:length(goleta$field_pt_name)){
+    
+    if(goleta$field_pt_name[i] == 'FINAL EFF'){
+      goleta$field_pt_name[i] = 'effluent'}
+    
+    else{
+      goleta$field_pt_name[i] = 'influent'}}
+
+
+
