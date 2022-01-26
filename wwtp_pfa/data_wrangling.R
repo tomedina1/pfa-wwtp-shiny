@@ -110,4 +110,57 @@ irvine <- read_csv(here('wwtp_pfa', 'data', 'irvine.csv')) %>%
   
     else{
       irvine$field_pt_name[i] = 'influent'}}
+
+
+### San Clemente WRF
+sanclem <- read_csv(here('wwtp_pfa', 'data', 'sanclemente.csv')) %>% 
+  clean_names() %>% 
+  select(samp_date, field_pt_name, parameter:value, units) %>% 
+  filter(field_pt_name %in% c('CSCRECYCLE', 'CSCINF'),
+         parvq == '=',
+         units == 'NG/L') %>%
+  mutate(wwtp = 'San Clemente')
+
+  for(i in 1:length(sanclem$field_pt_name)){
+    
+    if(sanclem$field_pt_name[i] == 'CSCRECYCLE'){
+      sanclem$field_pt_name[i] = 'efluent'}
+    
+    else{
+      sanclem$field_pt_name[i] = 'influent'}}
   
+
+### Point Loma WWTP (San Diego)
+loma <- read_csv(here('wwtp_pfa', 'data', 'pointloma.csv')) %>% 
+  clean_names() %>% 
+  select(samp_date, field_pt_name, parameter:value, units) %>% 
+  filter(field_pt_name %in% c('PLE', 'PLR'),
+         parvq == '=',
+         units == 'NG/L') %>%
+  mutate(wwtp = 'Point Loma')
+
+  for(i in 1:length(loma$field_pt_name)){
+  
+    if(loma$field_pt_name[i] == 'PLE'){
+      loma$field_pt_name[i] = 'efluent'}
+  
+    else{
+      loma$field_pt_name[i] = 'influent'}}
+
+
+### Palm Springs WWTF
+palmsprings <- read_csv(here('wwtp_pfa', 'data', 'palmsprings.csv')) %>% 
+  clean_names() %>% 
+  select(samp_date, field_pt_name, parameter:value, units) %>% 
+  filter(field_pt_name %in% c('PSWWTF-EFF', 'PSWWTF-INF'),
+         parvq == '=',
+         units == 'NG/L') %>%
+  mutate(wwtp = 'Palm Springs')
+
+  for(i in 1:length(palmsprings$field_pt_name)){
+    
+    if(palmsprings$field_pt_name[i] == 'PSWWTF-EFF'){
+      palmsprings$field_pt_name[i] = 'effluent'}
+    
+    else{
+      palmsprings$field_pt_name[i] = 'influent'}}
