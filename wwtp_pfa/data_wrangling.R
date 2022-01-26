@@ -164,3 +164,39 @@ palmsprings <- read_csv(here('wwtp_pfa', 'data', 'palmsprings.csv')) %>%
     
     else{
       palmsprings$field_pt_name[i] = 'influent'}}
+
+
+### Margaret H Chandler WWRF (San Bernardino)
+sanbernardino <- read_csv(here('wwtp_pfa', 'data', 'sanbernardino.csv')) %>% 
+  clean_names() %>% 
+  select(samp_date, field_pt_name, parameter:value, units) %>% 
+  filter(field_pt_name %in% c('EFF-FD-GRAB', 'EFF-FS-GRAB', 'INF-FD-GRAB', 'INF-FS-GRAB'),
+         parvq == '=',
+         units == 'NG/L') %>%
+  mutate(wwtp = 'San Bernardino')
+
+  for(i in 1:length(sanbernardino$field_pt_name)){
+  
+    if(sanbernardino$field_pt_name[i] %in% c('EFF-FD-GRAB', 'EFF-FS-GRAB')){
+      sanbernardino$field_pt_name[i] = 'effluent'}
+  
+    else{
+      sanbernardino$field_pt_name[i] = 'influent'}}
+
+
+### Palmdale WRP
+palmdale <- read_csv(here('wwtp_pfa', 'data', 'palmdale.csv')) %>% 
+  clean_names() %>% 
+  select(samp_date, field_pt_name, parameter:value, units) %>% 
+  filter(field_pt_name %in% c('PA-WRP-EFF', 'PA-WRP-INF'),
+         parvq == '=',
+         units == 'NG/L') %>%
+  mutate(wwtp = 'Palmdale')
+
+  for(i in 1:length(palmdale$field_pt_name)){
+  
+    if(palmdale$field_pt_name[i] == 'PA-WRP-EFF'){
+      palmdale$field_pt_name[i] = 'effluent'}
+  
+    else{
+      palmdale$field_pt_name[i] = 'influent'}}
