@@ -18,13 +18,12 @@ ui <- fluidPage(
                                         selectInput(
                                           "select_location", label = h3("Select Location"),
                                           choices = unique(pfa_data_final$wwtp)), # end select input
-                                        
-                                        checkboxGroupInput(
-                                          "select_pt", label = h3("Select Sampling Location"),
-                                          choices = unique(pfa_data_final$field_pt_name)) # end checkboxGroupInput
+                            
                                       ), # end sidebarPanel
                                       
-                                      mainPanel('output goes here') # end mainPanel
+                                      mainPanel("Output goes here",
+                                        plotOutput("pfa_plot")
+                                      ) # end mainPanel
                                     
                                       ) # end sidebarLayout
                                     ), # end tabPanel
@@ -64,12 +63,17 @@ server <- function(input, output){
   
   location_reactive <- reactive({
     pfa_data_final %>% 
-      filter(wwtp %in% input$select_location)})
+      filter(wwtp == input$select_location)})
   
-  wwtp_reactive <- reactive({
-    pfa_data_final %>% 
-      filter(field_pt_name %in% input$select_pt)
-  })
+  
+  output$pfa_plot <- renderPlot(
+    ggplot(data = location_reactive(), aes(x = parameter, y = mean_value, fill = field_pt_name)) +
+      geom_bar(stat = 'identity', position = 'dodge') +
+      facet_wrap(~ samp_date) +
+      theme_classic())
+
+  
+  
   
 } # end server
 
