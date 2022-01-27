@@ -1,6 +1,7 @@
 
 library(shiny)
 library(tidyverse)
+library(patchwork)
 
 
 ui <- fluidPage(
@@ -68,8 +69,8 @@ server <- function(input, output){
   
   output$pfa_plot <- renderPlot(
     ggplot(data = location_reactive(), aes(x = parameter, y = mean_value, fill = field_pt_name)) +
-      geom_bar(stat = 'identity', position = 'dodge') +
-      facet_wrap(~ samp_date) +
+      geom_bar(stat = 'identity', position = 'dodge', width = 0.5) +
+      facet_wrap(~ samp_date, ncol = 1) +
       theme_classic())
 
   
