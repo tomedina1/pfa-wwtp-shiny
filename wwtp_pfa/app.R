@@ -16,21 +16,12 @@ ui <- fluidPage(
                                       sidebarPanel(
                                         
                                         selectInput(
-                                          "wwtp", label = h3("Select Location"),
-                                          choices = list('Carpinteria' = 'Carpinteria', 'El Estero - Santa Barbara' = 'Santa Barbara',
-                                                         'LA/Glendale' = 'Glendale', 'Goleta' = 'Goleta', 
-                                                         'Hyperion - Los Angeles' = 'Hyperion', 'Michelson - Irvine' = 'Irvine',
-                                                         'Lompoc' = 'Lompoc', 'Ojai Valley' = 'Ojai Valley', 
-                                                         'Palm Springs' = 'Palm Springs', 'Palmdale' = 'Palmdale',
-                                                         'Coronado Island' = 'Point Loma', 'Port of Long Beach' = 'Port of Long Beach',
-                                                         'San Bernardino' = 'San Bernardino', 'San Clemente' = 'San Clemente',
-                                                         'San Diego' = 'San Diego', 'Whittier' = 'Whittier',
-                                                         'Tillman - Los Angeles' = 'Tillman', 'Carlsbad' = 'Encina',
-                                                         'Santa Clarita' = 'Valencia')), # end select input
+                                          "select_location", label = h3("Select Location"),
+                                          choices = unique(pfa_data_final$wwtp)), # end select input
                                         
                                         checkboxGroupInput(
-                                          "field_pt_name", label = h3("Select Sampling Location"),
-                                          choices = list('influent' = 'influent', 'effluent' = 'effluent')) # end checkboxGroupInput
+                                          "select_pt", label = h3("Select Sampling Location"),
+                                          choices = unique(pfa_data_final$field_pt_name)) # end checkboxGroupInput
                                       ), # end sidebarPanel
                                       
                                       mainPanel('output goes here') # end mainPanel
@@ -71,9 +62,14 @@ ui <- fluidPage(
 
 server <- function(input, output){
   
-  output$wwtp <- renderPrint({pfa_data_final$wwtp})
+  location_reactive <- reactive({
+    pfa_data_final %>% 
+      filter(wwtp %in% input$select_location)})
   
-  output$field_pt_name <- renderPrint({pfa_data_final$field_pt_name})
+  wwtp_reactive <- reactive({
+    pfa_data_final %>% 
+      filter(field_pt_name %in% input$select_pt)
+  })
   
 } # end server
 
