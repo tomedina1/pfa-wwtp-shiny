@@ -301,13 +301,13 @@ oxnard <- read_csv(here('wwtp_pfa', 'data', 'oxnard.csv')) %>%
          units == 'NG/L') %>% 
   mutate(wwtp = 'Lompoc')
 
-for(i in 1:length(oxnard$field_pt_name)){
+  for(i in 1:length(oxnard$field_pt_name)){
   
-  if(oxnard$field_pt_name[i] == 'EFF-001B'){
-    oxnard$field_pt_name[i] = 'effluent'}
+    if(oxnard$field_pt_name[i] == 'EFF-001B'){
+      oxnard$field_pt_name[i] = 'effluent'}
   
-  else{
-    oxnard$field_pt_name[i] = 'influent'}}
+    else{
+      oxnard$field_pt_name[i] = 'influent'}}
 
 
 ### Valencia WWTP
@@ -319,13 +319,13 @@ valencia <- read_csv(here('wwtp_pfa', 'data', 'valencia.csv')) %>%
          units == 'NG/L') %>% 
   mutate(wwtp = 'Valencia')
 
-for(i in 1:length(valencia$field_pt_name)){
+  for(i in 1:length(valencia$field_pt_name)){
   
-  if(valencia$field_pt_name[i] == 'VAL_CL_TER'){
-    valencia$field_pt_name[i] = 'effluent'}
+    if(valencia$field_pt_name[i] == 'VAL_CL_TER'){
+      valencia$field_pt_name[i] = 'effluent'}
   
-  else{
-    valencia$field_pt_name[i] = 'influent'}}
+    else{
+      valencia$field_pt_name[i] = 'influent'}}
 
 
 ### Encina (Carlsbad)
@@ -337,13 +337,13 @@ encina <- read_csv(here('wwtp_pfa', 'data', 'encina.csv')) %>%
          units == 'NG/L') %>% 
   mutate(wwtp = 'Encina')
 
-for(i in 1:length(encina$field_pt_name)){
+  for(i in 1:length(encina$field_pt_name)){
   
-  if(encina$field_pt_name[i] == 'M-001'){
-    encina$field_pt_name[i] = 'effluent'}
+    if(encina$field_pt_name[i] == 'M-001'){
+      encina$field_pt_name[i] = 'effluent'}
   
-  else{
-    encina$field_pt_name[i] = 'influent'}}
+    else{
+      encina$field_pt_name[i] = 'influent'}}
 
 
 ### South San Diego
@@ -355,13 +355,13 @@ sd <- read_csv(here('wwtp_pfa', 'data', 'sd.csv')) %>%
          units == 'NG/L') %>% 
   mutate(wwtp = 'San Diego')
 
-for(i in 1:length(sd$field_pt_name)){
+  for(i in 1:length(sd$field_pt_name)){
   
-  if(sd$field_pt_name[i] %in% c('SB_OUTFALL', 'SB_REC_H20')){
+    if(sd$field_pt_name[i] %in% c('SB_OUTFALL', 'SB_REC_H20')){
     sd$field_pt_name[i] = 'effluent'}
   
-  else{
-    sd$field_pt_name[i] = 'influent'}}
+    else{
+      sd$field_pt_name[i] = 'influent'}}
 
 
 
@@ -388,9 +388,7 @@ shiny_data <- pfa_data_final %>%
   for(i in 1:length(shiny_data$parameter)){
     
     if(shiny_data$parameter[i] == 'PFHA'){
-      shiny_data$parameter[i] = 'PFHxA'}
-    
-  }
+      shiny_data$parameter[i] = 'PFHxA'}}
 
 
   
