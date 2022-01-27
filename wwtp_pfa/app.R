@@ -19,6 +19,10 @@ ui <- fluidPage(
                                         selectInput(
                                           "select_location", label = h3("Select Location"),
                                           choices = unique(pfa_data_final$wwtp)), # end select input
+                                        
+                                        selectizeInput(
+                                          "select_date", label = h3("Select sampling date"),
+                                          choices = unique(pfa_data_final$samp_date))
                             
                                       ), # end sidebarPanel
                                       
@@ -60,18 +64,31 @@ ui <- fluidPage(
                 ) # end ui
 
 
-server <- function(input, output){
+server <- function(input, output, session){
   
   location_reactive <- reactive({
     pfa_data_final %>% 
       filter(wwtp == input$select_location)})
   
+  date_reactive <- reactive({
+    location_reactive %>% 
+      filter(date == input$select_date)})
   
-  output$pfa_plot <- renderPlot(
-    ggplot(data = location_reactive(), aes(x = parameter, y = mean_value, fill = field_pt_name)) +
-      geom_bar(stat = 'identity', position = 'dodge', width = 0.5) +
-      facet_wrap(~ samp_date, ncol = 1) +
-      theme_classic())
+  
+ observeEvent(input$select_location,
+              {
+   updateSelectizeInput(session,
+                        input = "select_date",
+                        choices = pfa_data_final[pfa_data_final$wwtp %in% input$select_location, "samp_date", drop = TRUE])
+                
+                output$pfa_plot <- renderPlot({
+                  ggplot(data = date_reactive(), aes(x = parameter, y = mean_value, fill = field_pt_name)) +
+                    geom_bar(stat = 'identity', position = 'dodge', width = 0.5) +
+                    facet_wrap(~ samp_date, ncol = 1) +
+                    theme_minimal()})})
+ 
+
+  
 
   
   
