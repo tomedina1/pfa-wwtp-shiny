@@ -220,4 +220,55 @@ goleta <- read_csv(here('wwtp_pfa', 'data', 'goleta.csv')) %>%
       goleta$field_pt_name[i] = 'influent'}}
 
 
+### El Estero - Santa Barbara 
+sb <- read_csv(here('wwtp_pfa', 'data', 'sb.csv')) %>% 
+  clean_names() %>% 
+  select(samp_date, field_pt_name, parameter:value, units) %>% 
+  filter(field_pt_name %in% c('EFF-001A', 'INF-01', 'INF-02', 'INF-03'),
+         parvq == '=',
+         units == 'NG/L') %>%
+  mutate(wwtp = 'El Estero - SB')
 
+  for(i in 1:length(sb$field_pt_name)){
+    
+    if(sb$field_pt_name[i] == 'EFF-001A'){
+      sb$field_pt_name[i] = 'effluent'}
+    
+    else{
+      sb$field_pt_name[i] = 'influent'}}
+  
+
+### Carpinteria SD WWTP
+carpinteria <- read_csv(here('wwtp_pfa', 'data', 'carpinteria.csv')) %>% 
+  clean_names() %>% 
+  select(samp_date, field_pt_name, parameter:value, units) %>% 
+  filter(field_pt_name %in% c('M-001 A', 'M-INF'),
+         parvq == '=',
+         units == 'NG/L') %>% 
+  mutate(wwtp = 'Carpinteria')
+
+  for(i in 1:length(carpinteria$field_pt_name)){
+    
+    if(carpinteria$field_pt_name[i] == 'M-001 A'){
+      carpinteria$field_pt_name[i] = 'effluent'}
+    
+    else{
+      carpinteria$field_pt_name[i] = 'influent'}}
+
+
+### Ojai
+ojai <- read_csv(here('wwtp_pfa', 'data', 'ojai.csv')) %>% 
+  clean_names() %>% 
+  select(samp_date, field_pt_name, parameter:value, units) %>% 
+  filter(field_pt_name %in% c('EFFLUENT', 'INFLUENT'),
+         parvq == '=',
+         units == 'NG/L') %>% 
+  mutate(wwtp = 'Ojai Valley')
+
+  for(i in length(ojai$field_pt_name)){
+    
+    if(ojai$field_pt_name[i] == 'EFFLUENT'){
+      ojai$field_pt_name[i] = 'effluent'}
+    
+    else{
+      ojai$field_pt_name[i] = 'influent'}}
