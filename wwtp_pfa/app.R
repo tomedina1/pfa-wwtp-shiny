@@ -26,7 +26,11 @@ ui <- fluidPage(
                                                          'San Bernardino' = 'San Bernardino', 'San Clemente' = 'San Clemente',
                                                          'San Diego' = 'San Diego', 'Whittier' = 'Whittier',
                                                          'Tillman - Los Angeles' = 'Tillman', 'Carlsbad' = 'Encina',
-                                                         'Santa Clarita' = 'Valencia')) # end select input
+                                                         'Santa Clarita' = 'Valencia')), # end select input
+                                        
+                                        checkboxGroupInput(
+                                          "field_pt_name", label = h3("Select Sampling Location"),
+                                          choices = list('influent' = 'influent', 'effluent' = 'effluent')) # end checkboxGroupInput
                                       ), # end sidebarPanel
                                       
                                       mainPanel('output goes here') # end mainPanel
@@ -67,7 +71,9 @@ ui <- fluidPage(
 
 server <- function(input, output){
   
-  output$wwtp <- renderPrint({shiny_data$wwtp})
+  output$wwtp <- renderPrint({pfa_data_final$wwtp})
+  
+  output$field_pt_name <- renderPrint({pfa_data_final$field_pt_name})
   
 } # end server
 
