@@ -366,20 +366,29 @@ sd <- read_csv(here('wwtp_pfa', 'data', 'sd.csv')) %>%
 
 
 ### Generate final df used in the shiny app
-pfa_data <- rbind(carpinteria, glendale, goleta, hyperion, irvine, loma, lompoc,
+pfa_data <- rbind(carpinteria, encina, glendale, goleta, hyperion, irvine, loma, lompoc,
                   ojai, oxnard, palmdale, palmsprings, port, sanbernardino, sanclem,
-                  sb, sd, tillman, whittier) ### binds all of the data frames together
+                  sb, sd, tillman, valencia, whittier) ### binds all of the data frames together
 
 pfa_data_final <- pfa_data %>% 
   group_by(wwtp, samp_date, field_pt_name, parameter) %>% 
-  summarize(mean_value = mean(value)) %>% ### averages the concentration values when there is multiple influent or effluent concentrations
+  summarize(mean_value = mean(value))  ### averages the concentration values when there is multiple influent or effluent concentrations
+
+  for(i in 1:length(pfa_data_final$parameter)){
+  
+    if(pfa_data_final$parameter[i] == 'PFHA'){
+      pfa_data_final$parameter[i] = 'PFHxA'}}
+
+
+shiny_data <- pfa_data_final %>% 
   pivot_wider(names_from = field_pt_name,
               values_from = mean_value) ### makes new columns for influent and effluent
   
   pfa_data_final[is.na(pfa_data_final)] <- 0 ### all NA values become 0
+  shiny_data[is.na(shiny_data)] <- 0
   
   
-shiny_data <- pfa_data_final %>% 
+shiny_data_final <- shiny_data %>% 
   mutate(difference = effluent - influent, ### calculates a difference column
          formation = case_when( ### creates a column that tags if PFA formation occurs in the water treatment plant.
            difference < 0 ~ FALSE,
