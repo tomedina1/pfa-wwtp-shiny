@@ -10,7 +10,8 @@ hyperion <- read_csv(here('wwtp_pfa','data','hyperion.csv')) %>%
   select(samp_date, field_pt_name, parameter:value, units) %>% 
   filter(field_pt_name %in% c('5-MILE', 'RI-NORS', 'RI-NCOS', 'RI-NOS', 'RI-CWIS', 'RI-COS'),
          parvq == '=',
-         units == 'NG/L') %>% 
+         units == 'NG/L',
+         !(samp_date %in% c('10/14/2020', '9/14/2021'))) %>% 
   mutate(wwtp = 'Hyperion')
 
   for(i in 1:length(hyperion$field_pt_name)){
@@ -46,7 +47,8 @@ tillman <- read_csv(here('wwtp_pfa', 'data', 'tillman.csv')) %>%
   select(samp_date, field_pt_name, parameter:value, units) %>% 
   filter(field_pt_name %in% c('PW', 'RI'),
          parvq == '=',
-         units == 'NG/L') %>% 
+         units == 'NG/L',
+         samp_date != '10/14/2020') %>% 
   mutate(wwtp = 'Tillman')
 
   for(i in 1:length(tillman$field_pt_name)){
@@ -64,7 +66,8 @@ port <- read_csv(here('wwtp_pfa', 'data', 'portb.csv')) %>%
   select(samp_date, field_pt_name, parameter:value, units) %>% 
   filter(field_pt_name %in% c('EFFLUENT', 'RI'),
          parvq == '=',
-         units == 'NG/L') %>% 
+         units == 'NG/L',
+         samp_date != '10/14/2020') %>% 
   mutate(wwtp = 'Port of Long Beach')
 
   for(i in 1:length(port$field_pt_name)){
@@ -82,7 +85,8 @@ glendale <- read_csv(here('wwtp_pfa', 'data', 'glendale.csv')) %>%
   select(samp_date, field_pt_name, parameter:value, units) %>% 
   filter(field_pt_name %in% c('EFFLUENT', 'RI'),
          parvq == '=',
-         units == 'NG/L') %>% 
+         units == 'NG/L',
+         samp_date != '10/14/2020') %>% 
   mutate(wwtp = 'Glendale')
 
   for(i in 1:length(glendale$field_pt_name)){

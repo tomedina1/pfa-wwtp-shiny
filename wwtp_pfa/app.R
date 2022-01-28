@@ -21,12 +21,13 @@ ui <- fluidPage(
                                           choices = unique(pfa_data_final$wwtp)), # end select input
                                         
                                         selectizeInput(
-                                          "select_date", label = h3("Select sampling date"),
-                                          choices = unique(pfa_data_final$samp_date))
+                                          "select_date", label = h3("Select Sampling Date"),
+                                          choices = unique(pfa_data_final$samp_date)),
+          
                             
                                       ), # end sidebarPanel
                                       
-                                      mainPanel("Output goes here",
+                                      mainPanel(
                                         plotOutput("pfa_plot")
                                       ) # end mainPanel
                                     
@@ -76,29 +77,20 @@ server <- function(input, output, session){
   
   
  observeEvent(input$select_location,
-              {
-   updateSelectizeInput(session,
-                        input = "select_date",
-                        choices = pfa_data_final[pfa_data_final$wwtp %in% input$select_location, "samp_date", drop = TRUE])})
- 
+              {updateSelectizeInput(session, input = "select_date",
+                                    choices = pfa_data_final[pfa_data_final$wwtp %in% input$select_location, 
+                                                             "samp_date", drop = TRUE])})
+
  plot_data <- reactive({
    pfa_data_final %>% 
    filter(wwtp == input$select_location,
           samp_date == input$select_date)})
  
- output$pfa_plot <- renderPlot({
-
-   ggplot(data = plot_data(), aes(x = parameter, y = mean_value, fill = field_pt_name)) +
-     geom_bar(stat = 'identity', position = 'dodge', width = 0.5) +
-     theme_minimal()})
-                
-                
  
-
-  
-
-  
-  
+ output$pfa_plot <- renderPlot({
+   ggplot(data = plot_data(), aes(x = parameter, y = mean_value, fill = field_pt_name)) +
+     geom_bar(stat = 'identity', position = position_dodge2(preserve = "single"), width = 0.5) +
+     theme_minimal()})
   
 } # end server
 
