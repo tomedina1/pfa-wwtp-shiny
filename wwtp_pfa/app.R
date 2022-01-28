@@ -79,13 +79,20 @@ server <- function(input, output, session){
               {
    updateSelectizeInput(session,
                         input = "select_date",
-                        choices = pfa_data_final[pfa_data_final$wwtp %in% input$select_location, "samp_date", drop = TRUE])
+                        choices = pfa_data_final[pfa_data_final$wwtp %in% input$select_location, "samp_date", drop = TRUE])})
+ 
+ plot_data <- reactive({
+   pfa_data_final %>% 
+   filter(wwtp == input$select_location,
+          samp_date == input$select_date)})
+ 
+ output$pfa_plot <- renderPlot({
+
+   ggplot(data = plot_data(), aes(x = parameter, y = mean_value, fill = field_pt_name)) +
+     geom_bar(stat = 'identity', position = 'dodge', width = 0.5) +
+     theme_minimal()})
                 
-                output$pfa_plot <- renderPlot({
-                  ggplot(data = date_reactive(), aes(x = parameter, y = mean_value, fill = field_pt_name)) +
-                    geom_bar(stat = 'identity', position = 'dodge', width = 0.5) +
-                    facet_wrap(~ samp_date, ncol = 1) +
-                    theme_minimal()})})
+                
  
 
   
