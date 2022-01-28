@@ -101,6 +101,9 @@ server <- function(input, output, session){
   output$pfa_plot <- renderPlot({
     ggplot(data = plot_data(), aes(x = parameter, y = mean_value, fill = field_pt_name)) +
       geom_bar(stat = 'identity', position = position_dodge2(preserve = "single"), width = 0.5) +
+      guides(fill = guide_legend(title = 'sample location')) +
+      labs(x = "PFA",
+           y = "concentration (ng/L)") +
       theme_minimal()})
   
   
@@ -127,6 +130,8 @@ server <- function(input, output, session){
   output$pfa_difference <- renderPlot({
     ggplot(data = plot_data_2(), aes(x = parameter, y = difference)) +
       geom_bar(stat = 'identity', width = 0.5) +
+      labs(x = "PFA",
+           y = "Concentration difference (ng/L)") +
       theme_minimal()}) 
   
   
