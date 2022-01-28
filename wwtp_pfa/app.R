@@ -1,7 +1,6 @@
 
 library(shiny)
 library(tidyverse)
-library(patchwork)
 
 
 ui <- fluidPage(
@@ -18,12 +17,11 @@ ui <- fluidPage(
                                         
                                         selectInput(
                                           "select_location", label = h3("Select Location"),
-                                          choices = unique(pfa_data_final$wwtp)), # end select input
+                                          choices = unique(pfa_data_final$wwtp)), 
                                         
                                         selectizeInput(
                                           "select_date", label = h3("Select Sampling Date"),
                                           choices = unique(pfa_data_final$samp_date)),
-          
                             
                                       ), # end sidebarPanel
                                       
@@ -37,9 +35,21 @@ ui <- fluidPage(
                            
                            tabPanel('Widget 2',
                                     sidebarLayout(
-                                      sidebarPanel('Widget goes here'), # end sidebarPanel
+                                      sidebarPanel(
+                                        
+                                        selectInput(
+                                          "select_location_2", label = h3("Select Location"),
+                                          choices = unique(shiny_data_final$wwtp)),
+                                        
+                                        selectizeInput(
+                                          "select_date_2", label = h3("Select Sampling Date"),
+                                          choices = unique(shiny_data_final$samp_date))
+                                        
+                                      ), # end sidebarPanel
                                       
-                                      mainPanel('output goes here') # end mainPanel
+                                      mainPanel(
+                                        plotOutput("pfa_difference")
+                                      ) # end mainPanel
                                       
                                     ) # end sidebarLayout
                            ), # end tabPanel
@@ -66,7 +76,8 @@ ui <- fluidPage(
 
 
 server <- function(input, output, session){
-  
+
+  ### WIDGET 1
   location_reactive <- reactive({
     pfa_data_final %>% 
       filter(wwtp == input$select_location)})
@@ -76,21 +87,48 @@ server <- function(input, output, session){
       filter(date == input$select_date)})
   
   
- observeEvent(input$select_location,
-              {updateSelectizeInput(session, input = "select_date",
-                                    choices = pfa_data_final[pfa_data_final$wwtp %in% input$select_location, 
-                                                             "samp_date", drop = TRUE])})
+  observeEvent(input$select_location,
+                {updateSelectizeInput(session, input = "select_date",
+                                      choices = pfa_data_final[pfa_data_final$wwtp %in% input$select_location, 
+                                                              "samp_date", drop = TRUE])})
 
- plot_data <- reactive({
-   pfa_data_final %>% 
-   filter(wwtp == input$select_location,
-          samp_date == input$select_date)})
+  plot_data <- reactive({
+    pfa_data_final %>% 
+    filter(wwtp == input$select_location,
+           samp_date == input$select_date)})
  
  
- output$pfa_plot <- renderPlot({
-   ggplot(data = plot_data(), aes(x = parameter, y = mean_value, fill = field_pt_name)) +
-     geom_bar(stat = 'identity', position = position_dodge2(preserve = "single"), width = 0.5) +
-     theme_minimal()})
+  output$pfa_plot <- renderPlot({
+    ggplot(data = plot_data(), aes(x = parameter, y = mean_value, fill = field_pt_name)) +
+      geom_bar(stat = 'identity', position = position_dodge2(preserve = "single"), width = 0.5) +
+      theme_minimal()})
+  
+  
+  ### WIDGET 2
+  location_reactive_2 <- reactive({
+    shiny_data_final %>% 
+      filter(wwtp == input$select_location_2)})
+  
+  date_reactive_2 <- reactive({
+    location_reactive_2 %>% 
+      filter(date == input$select_date_2)})
+  
+  observeEvent(input$select_location_2,
+               {updateSelectizeInput(session, input = "select_date_2",
+                                     choices = shiny_data_final[shiny_data_final$wwtp %in% input$select_location_2,
+                                                                "samp_date", drop = TRUE])})
+  
+  plot_data_2 <- reactive({
+    shiny_data_final %>% 
+      filter(wwtp == input$select_location_2,
+             samp_date == input$select_date_2) %>% 
+      na.omit()})
+  
+  output$pfa_difference <- renderPlot({
+    ggplot(data = plot_data_2(), aes(x = parameter, y = difference)) +
+      geom_bar(stat = 'identity', width = 0.5) +
+      theme_minimal()}) 
+  
   
 } # end server
 
