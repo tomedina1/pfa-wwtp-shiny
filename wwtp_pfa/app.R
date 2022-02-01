@@ -2,6 +2,7 @@
 library(shiny)
 library(tidyverse)
 library(leaflet)
+library(shinyWidgets)
 library(leaflet.extras)
 
 
@@ -16,8 +17,13 @@ ui <- fluidPage(
                                     sidebarLayout(
                                       sidebarPanel(
                                         
-                                        checkboxGroupInput("select_county", label = h3("Select County"),
-                                                           choices = unique(wwtp_info$county))),
+                                        prettyCheckboxGroup("select_site", label = h3("Select WWTP"),
+                                                           choices = unique(wwtp_info$site_name),
+                                                           status = 'info',
+                                                           plain = TRUE,
+                                                           fill = TRUE,
+                                                           thick = TRUE,
+                                                           animation = 'smooth')),
                                   
                                     mainPanel(
                                       leafletOutput("map")
@@ -96,7 +102,7 @@ server <- function(input, output, session){
   ### WIDGET 1
   map_reactive <- reactive({
     wwtp_info %>% 
-      filter(county %in% input$select_county)})
+      filter(site_name %in% input$select_site)})
   
   output$map <- renderLeaflet({
     leaflet(wwtp_info) %>% 
@@ -104,17 +110,13 @@ server <- function(input, output, session){
       setView( lng = -118, lat = 34, zoom = 7) %>% 
       addProviderTiles("Esri.WorldImagery")})
   
-  pal <- colorFactor(
-    palette = c("red", "dark red", "orange", "gold", "dark orange", "pink", "yellow"),
-    domain = NULL)
     
   observe({
     leafletProxy("map", data = map_reactive()) %>% 
       clearMarkers() %>% 
       addCircleMarkers(lng = ~ longitude_decimal_degrees,
                        lat = ~ latitude_decimal_degrees,
-                       popup = ~ paste0(site_name),
-                       color = ~ pal(county))})
+                       popup = ~ paste0(site_name))})
 
 
   
