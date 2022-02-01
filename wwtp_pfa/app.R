@@ -1,7 +1,6 @@
 
 library(shiny)
 library(tidyverse)
-library(tmap)
 library(leaflet)
 library(leaflet.extras)
 
