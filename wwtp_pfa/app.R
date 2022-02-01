@@ -15,7 +15,7 @@ ui <- fluidPage(
                            
                            tabPanel('Widget 1',
                                     sidebarLayout(
-                                      sidebarPanel(
+                                      sidebarPanel(width = 3,
                                         
                                         prettyCheckboxGroup("select_site", label = h3("Select WWTP"),
                                                            choices = unique(wwtp_info$site_name),
@@ -93,6 +93,7 @@ ui <- fluidPage(
                            
                            
                            ) # end navbarPage
+
                 ) # end ui
 
 
@@ -108,7 +109,7 @@ server <- function(input, output, session){
     leaflet(wwtp_info) %>% 
       addTiles() %>% 
       setView( lng = -118, lat = 34, zoom = 7) %>% 
-      addProviderTiles("Esri.WorldImagery")})
+      addProviderTiles(providers$Esri.NatGeoWorldMap)})
   
     
   observe({
