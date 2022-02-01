@@ -1,6 +1,9 @@
 
 library(shiny)
 library(tidyverse)
+library(tmap)
+library(leaflet)
+library(leaflet.extras)
 
 
 ui <- fluidPage(
@@ -10,8 +13,22 @@ ui <- fluidPage(
                            
                            tabPanel('Background'),
                            
-                           
                            tabPanel('Widget 1',
+                                    sidebarLayout(
+                                      sidebarPanel(
+                                        
+                                        checkboxGroupInput("select_county", label = h3("Select County"),
+                                                           choices = unique(wwtp_info$county))
+                                        
+                                       
+                                      ),
+                                  
+                                    mainPanel(
+                                      leafletOutput("map")
+                                    ))),
+                           
+                           
+                           tabPanel('Widget 2',
                                     sidebarLayout(
                                       sidebarPanel(
                                         
@@ -21,7 +38,7 @@ ui <- fluidPage(
                                         
                                         selectizeInput(
                                           "select_date", label = h3("Select Sampling Date"),
-                                          choices = unique(pfa_data_final$samp_date)),
+                                          choices = unique(pfa_data_final$samp_date))
                             
                                       ), # end sidebarPanel
                                       
@@ -33,7 +50,7 @@ ui <- fluidPage(
                                     ), # end tabPanel
                            
                            
-                           tabPanel('Widget 2',
+                           tabPanel('Widget 3',
                                     sidebarLayout(
                                       sidebarPanel(
                                         
@@ -55,7 +72,7 @@ ui <- fluidPage(
                            ), # end tabPanel
                            
                            
-                           tabPanel('Widget 3',
+                           tabPanel('Widget 4',
                                     sidebarLayout(
                                       sidebarPanel('Widget goes here'), # end sidebarPanel
                                       
@@ -76,8 +93,35 @@ ui <- fluidPage(
 
 
 server <- function(input, output, session){
-
+  
+  
   ### WIDGET 1
+  map_reactive <- reactive({
+    wwtp_info %>% 
+      filter(county %in% input$select_county)})
+  
+  output$map <- renderLeaflet({
+    leaflet(wwtp_info) %>% 
+      addTiles() %>% 
+      setView( lng = -118, lat = 34, zoom = 7) %>% 
+      addProviderTiles("Esri.WorldImagery")})
+  
+  pal <- colorFactor(
+    palette = c("red", "dark red", "orange", "gold", "dark orange", "pink", "yellow"),
+    domain = NULL)
+    
+  observe({
+    leafletProxy("map", data = map_reactive()) %>% 
+      clearMarkers() %>% 
+      addCircleMarkers(lng = ~ longitude_decimal_degrees,
+                       lat = ~ latitude_decimal_degrees,
+                       popup = ~ paste0(site_name),
+                       color = ~ pal(county))})
+
+
+  
+
+  ### WIDGET 2
   location_reactive <- reactive({
     pfa_data_final %>% 
       filter(wwtp == input$select_location)})
@@ -107,7 +151,7 @@ server <- function(input, output, session){
       theme_minimal()})
   
   
-  ### WIDGET 2
+  ### WIDGET 3
   location_reactive_2 <- reactive({
     shiny_data_final %>% 
       filter(wwtp == input$select_location_2)})
