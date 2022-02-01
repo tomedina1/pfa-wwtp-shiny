@@ -18,14 +18,13 @@ ui <- fluidPage(
                                       sidebarPanel(
                                         
                                         checkboxGroupInput("select_county", label = h3("Select County"),
-                                                           choices = unique(wwtp_info$county))
-                                        
-                                       
-                                      ),
+                                                           choices = unique(wwtp_info$county))),
                                   
                                     mainPanel(
                                       leafletOutput("map")
-                                    ))),
+                                    )
+                                    )
+                                    ),
                            
                            
                            tabPanel('Widget 2',
