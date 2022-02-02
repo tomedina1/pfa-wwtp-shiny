@@ -19,14 +19,15 @@ ui <- fluidPage(
                                         
                                         prettyCheckboxGroup("select_site", label = h3("Select WWTP"),
                                                            choices = unique(wwtp_info$site_name),
-                                                           status = 'info',
                                                            plain = TRUE,
                                                            fill = TRUE,
                                                            thick = TRUE,
+                                                           bigger = TRUE,
+                                                           icon = icon("fas fa-check"),
                                                            animation = 'smooth')),
                                   
                                     mainPanel(
-                                      leafletOutput("map")
+                                      leafletOutput("map", height = 700)
                                     )
                                     )
                                     ),
@@ -109,13 +110,13 @@ server <- function(input, output, session){
     leaflet(wwtp_info) %>% 
       addTiles() %>% 
       setView( lng = -118, lat = 34, zoom = 7) %>% 
-      addProviderTiles(providers$Esri.NatGeoWorldMap)})
+      addProviderTiles("Esri.WorldImagery")})
   
     
   observe({
     leafletProxy("map", data = map_reactive()) %>% 
       clearMarkers() %>% 
-      addCircleMarkers(lng = ~ longitude_decimal_degrees,
+      addAwesomeMarkers(lng = ~ longitude_decimal_degrees,
                        lat = ~ latitude_decimal_degrees,
                        popup = ~ paste0(site_name))})
 

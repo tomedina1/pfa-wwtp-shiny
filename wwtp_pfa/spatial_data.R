@@ -12,7 +12,8 @@ wwtp_info <- read_csv(here('wwtp_pfa', 'data', 'facility_info.csv')) %>%
                           'WDR100000408', 'WDR100001103', 'WDR100001153', 'WDR100001164',
                           'WDR100001158', 'WDR100001083', 'NPD10005195', 'NPD100051948',
                           'WDR100035884', 'NPD10005205', 'NPD100051514', 'WDR100035948',
-                          'WDR100030237', 'NPD100051499', 'WDR100032535', 'NPD100051624'))
+                          'WDR100030237', 'NPD100051499', 'WDR100032535', 'NPD100051624')) %>% 
+  distinct(global_id, .keep_all = TRUE)
 
 
 
