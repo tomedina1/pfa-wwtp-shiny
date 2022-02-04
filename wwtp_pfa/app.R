@@ -29,17 +29,15 @@ ui <- fluidPage(theme = light,
                                                            choices = unique(wwtp_info$site_name),
                                                            plain = TRUE,
                                                            fill = TRUE,
-                                                           thick = TRUE,
-                                                           bigger = TRUE,
                                                            icon = icon("fas fa-check"),
                                                            animation = 'smooth'),
-                                        actionButton("selectall", label="Select / Deselect all")),
+                                        actionButton("selectall", label = "Select / Deselect all")),
                                  
                                       
                                   
                                     mainPanel(
                                       leafletOutput("map", height = 700)
-                                    )
+                                      )
                                     )
                                     ),
                            
@@ -111,27 +109,36 @@ ui <- fluidPage(theme = light,
 
 server <- function(input, output, session){
 
-  observe({
-    if (input$selectall > 0) {
-      
-      if (input$selectall %% 2 == 0){
-        updateCheckboxGroupInput(session = session, 
-                                 inputId = "select_site",
-                                 choices = unique(wwtp_info$site_name),
-                                 selected = c(unique(wwtp_info$site_name)))
-        }
-      
-      else {
-        updateCheckboxGroupInput(session=session, inputId="select_site",
-                                 choices = unique(wwtp_info$site_name),
-                                 selected = "")}
-      }
-    })
   
   ### WIDGET 1
+  
   map_reactive <- reactive({
     wwtp_info %>% 
       filter(site_name %in% input$select_site)})
+  
+  observeEvent(input$selectall,
+               
+               {if (input$selectall > 0) {
+                   
+                   if (input$selectall %% 2 == 0){
+                     updatePrettyCheckboxGroup(session = session, 
+                                              inputId = "select_site",
+                                              choices = unique(wwtp_info$site_name),
+                                              selected = c(unique(wwtp_info$site_name)),
+                                              prettyOptions = list(animation = 'smooth', 
+                                                                   plain = TRUE,
+                                                                   fill = TRUE,
+                                                                   icon = icon('fas fa-check')))}
+                 
+                   else {
+                     updatePrettyCheckboxGroup(session = session, 
+                                              inputId = "select_site",
+                                              choices = unique(wwtp_info$site_name),
+                                              selected = "",
+                                              prettyOptions = list(animation = 'smooth', 
+                                                                   plain = TRUE,
+                                                                   fill = TRUE,
+                                                                   icon = icon('fas fa-check')))}}})
   
   output$map <- renderLeaflet({
     leaflet(wwtp_info) %>% 

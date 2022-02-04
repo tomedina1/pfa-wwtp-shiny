@@ -397,7 +397,8 @@ shiny_data_final <- shiny_data %>%
          formation = case_when( ### creates a column that tags if PFA formation occurs in the water treatment plant.
            difference < 0 ~ FALSE,
            difference > 0 ~ TRUE)) %>% 
-  filter(formation == TRUE)
+  filter(formation == TRUE,
+         difference > 2)
 
   for(i in 1:length(shiny_data$parameter)){
     
