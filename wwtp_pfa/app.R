@@ -113,18 +113,20 @@ server <- function(input, output, session){
 
   observe({
     if (input$selectall > 0) {
+      
       if (input$selectall %% 2 == 0){
-        updateCheckboxGroupInput(session=session, inputId="select_site",
+        updateCheckboxGroupInput(session = session, 
+                                 inputId = "select_site",
                                  choices = unique(wwtp_info$site_name),
                                  selected = c(unique(wwtp_info$site_name)))
-        
-      }
+        }
+      
       else {
         updateCheckboxGroupInput(session=session, inputId="select_site",
                                  choices = unique(wwtp_info$site_name),
-                                 selected = c())
-      }}
-  })
+                                 selected = "")}
+      }
+    })
   
   ### WIDGET 1
   map_reactive <- reactive({
