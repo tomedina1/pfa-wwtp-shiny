@@ -6,6 +6,7 @@ library(shinyWidgets)
 library(bslib)
 library(plotly)
 
+
 source('data_wrangling.R')
 source('spatial_data.R')
 
@@ -31,13 +32,15 @@ ui <- fluidPage(theme = light,
                                                            fill = TRUE,
                                                            icon = icon("fas fa-check"),
                                                            animation = 'smooth'),
-                                        actionButton("selectall", label = "Select / Deselect all")),
+                                        actionButton("selectall", label = "Select / Deselect all")
+                                        
+                                        ), # end sidebarPanel
                                  
                                       
                                   
                                     mainPanel(
                                       leafletOutput("map", height = 700)
-                                      )
+                                      ) # end mainPanel
                                     )
                                     ),
                            
@@ -114,7 +117,9 @@ server <- function(input, output, session){
   
   map_reactive <- reactive({
     wwtp_info %>% 
-      filter(site_name %in% input$select_site)})
+      filter(site_name %in% input$select_site)
+    })
+  
   
   observeEvent(input$selectall,
                
@@ -128,7 +133,8 @@ server <- function(input, output, session){
                                               prettyOptions = list(animation = 'smooth', 
                                                                    plain = TRUE,
                                                                    fill = TRUE,
-                                                                   icon = icon('fas fa-check')))}
+                                                                   icon = icon('fas fa-check'))
+                                              )}
                  
                    else {
                      updatePrettyCheckboxGroup(session = session, 
@@ -138,13 +144,19 @@ server <- function(input, output, session){
                                               prettyOptions = list(animation = 'smooth', 
                                                                    plain = TRUE,
                                                                    fill = TRUE,
-                                                                   icon = icon('fas fa-check')))}}})
+                                                                   icon = icon('fas fa-check'))
+                                              )}
+                 }
+                 
+                 })
+  
   
   output$map <- renderLeaflet({
     leaflet(wwtp_info) %>% 
       addTiles() %>% 
       setView(lng = -118, lat = 34, zoom = 7) %>% 
-      addProviderTiles("Esri.WorldImagery")})
+      addProviderTiles("Esri.WorldImagery")
+    })
   
     
   observe({
@@ -152,7 +164,8 @@ server <- function(input, output, session){
       clearMarkers() %>% 
       addAwesomeMarkers(lng = ~ longitude_decimal_degrees,
                        lat = ~ latitude_decimal_degrees,
-                       popup = ~ paste0(site_name))})
+                       popup = ~ paste0(site_name))
+    })
 
 
   
@@ -160,59 +173,76 @@ server <- function(input, output, session){
   ### WIDGET 2
   location_reactive <- reactive({
     pfa_data_final %>% 
-      filter(wwtp == input$select_location)})
+      filter(wwtp == input$select_location)
+    })
+  
   
   date_reactive <- reactive({
     location_reactive %>% 
-      filter(date == input$select_date)})
+      filter(date == input$select_date)
+    })
   
   
   observeEvent(input$select_location,
                 {updateSelectizeInput(session, input = "select_date",
                                       choices = pfa_data_final[pfa_data_final$wwtp %in% input$select_location, 
-                                                              "samp_date", drop = TRUE])})
+                                                              "samp_date", drop = TRUE])
+                  })
 
+  
   plot_data <- reactive({
     pfa_data_final %>% 
     filter(wwtp == input$select_location,
-           samp_date == input$select_date)})
+           samp_date == input$select_date)
+    })
  
  
   output$pfa_plot <- renderPlotly({ggplotly(
-    ggplot(data = plot_data(), aes(x = parameter, y = mean_value, fill = field_pt_name)) +
+    ggplot(data = plot_data(), aes(reorder(x = parameter, -mean_value), y = mean_value, fill = field_pt_name)) +
       geom_bar(stat = 'identity', position = position_dodge2(preserve = "single"), width = 0.5) +
       guides(fill = guide_legend(title = 'sample location')) +
+      scale_fill_manual(values = c('steelblue1', 'slategrey')) +
       labs(x = "PFA",
            y = "concentration (ng/L)") +
-      theme_minimal())})
+      theme_minimal())
+    })
   
   
   ### WIDGET 3
   location_reactive_2 <- reactive({
     shiny_data_final %>% 
-      filter(wwtp == input$select_location_2)})
+      filter(wwtp == input$select_location_2)
+    })
+  
   
   date_reactive_2 <- reactive({
     location_reactive_2 %>% 
-      filter(date == input$select_date_2)})
+      filter(date == input$select_date_2)
+    })
+  
   
   observeEvent(input$select_location_2,
                {updateSelectizeInput(session, input = "select_date_2",
                                      choices = shiny_data_final[shiny_data_final$wwtp %in% input$select_location_2,
-                                                                "samp_date", drop = TRUE])})
+                                                                "samp_date", drop = TRUE])
+                 })
+  
   
   plot_data_2 <- reactive({
     shiny_data_final %>% 
       filter(wwtp == input$select_location_2,
              samp_date == input$select_date_2) %>% 
-      na.omit()})
+      na.omit()
+    })
+  
   
   output$pfa_difference <- renderPlotly({ggplotly(
-    ggplot(data = plot_data_2(), aes(x = parameter, y = difference)) +
+    ggplot(data = plot_data_2(), aes(x = reorder(parameter, -difference), y = difference), width = 0.5) +
       geom_bar(stat = 'identity', width = 0.5) +
       labs(x = "PFA",
            y = "Concentration difference (ng/L)") +
-      theme_minimal())}) 
+      theme_minimal())
+    }) 
   
   
 } # end server
