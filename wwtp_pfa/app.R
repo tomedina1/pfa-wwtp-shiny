@@ -24,6 +24,7 @@ ui <- fluidPage(theme = light,
                                     sidebarLayout(
                                       sidebarPanel(width = 3,
                                         
+                                        
                                         prettyCheckboxGroup("select_site", label = h3("Select Treatment Site"),
                                                            choices = unique(wwtp_info$site_name),
                                                            plain = TRUE,
@@ -31,7 +32,10 @@ ui <- fluidPage(theme = light,
                                                            thick = TRUE,
                                                            bigger = TRUE,
                                                            icon = icon("fas fa-check"),
-                                                           animation = 'smooth')),
+                                                           animation = 'smooth'),
+                                        actionButton("selectall", label="Select / Deselect all")),
+                                 
+                                      
                                   
                                     mainPanel(
                                       leafletOutput("map", height = 700)
@@ -107,7 +111,20 @@ ui <- fluidPage(theme = light,
 
 server <- function(input, output, session){
 
-
+  observe({
+    if (input$selectall > 0) {
+      if (input$selectall %% 2 == 0){
+        updateCheckboxGroupInput(session=session, inputId="select_site",
+                                 choices = unique(wwtp_info$site_name),
+                                 selected = c(unique(wwtp_info$site_name)))
+        
+      }
+      else {
+        updateCheckboxGroupInput(session=session, inputId="select_site",
+                                 choices = unique(wwtp_info$site_name),
+                                 selected = c())
+      }}
+  })
   
   ### WIDGET 1
   map_reactive <- reactive({
@@ -117,7 +134,7 @@ server <- function(input, output, session){
   output$map <- renderLeaflet({
     leaflet(wwtp_info) %>% 
       addTiles() %>% 
-      setView( lng = -118, lat = 34, zoom = 7) %>% 
+      setView(lng = -118, lat = 34, zoom = 7) %>% 
       addProviderTiles("Esri.WorldImagery")})
   
     
