@@ -4,11 +4,16 @@ library(tidyverse)
 library(leaflet)
 library(shinyWidgets)
 library(bslib)
+library(plotly)
+
+source('data_wrangling.R')
+source('spatial_data.R')
+
+light <- bs_theme(version = 5, bootswatch = "lux")
 
 
-my_theme <- bs_theme(bootswatch = "lux")
+ui <- fluidPage(theme = light,
 
-ui <- fluidPage(theme = my_theme,
                 
                 navbarPage('PFA Tracker',
                            
@@ -50,7 +55,7 @@ ui <- fluidPage(theme = my_theme,
                                       ), # end sidebarPanel
                                       
                                       mainPanel(
-                                        plotOutput("pfa_plot", height = 700)
+                                        plotlyOutput("pfa_plot", height = 700)
                                       ) # end mainPanel
                                     
                                       ) # end sidebarLayout
@@ -72,7 +77,7 @@ ui <- fluidPage(theme = my_theme,
                                       ), # end sidebarPanel
                                       
                                       mainPanel(
-                                        plotOutput("pfa_difference", height = 700)
+                                        plotlyOutput("pfa_difference", height = 700)
                                       ) # end mainPanel
                                       
                                     ) # end sidebarLayout
@@ -101,7 +106,8 @@ ui <- fluidPage(theme = my_theme,
 
 
 server <- function(input, output, session){
-  
+
+
   
   ### WIDGET 1
   map_reactive <- reactive({
@@ -146,13 +152,13 @@ server <- function(input, output, session){
            samp_date == input$select_date)})
  
  
-  output$pfa_plot <- renderPlot({
+  output$pfa_plot <- renderPlotly({ggplotly(
     ggplot(data = plot_data(), aes(x = parameter, y = mean_value, fill = field_pt_name)) +
       geom_bar(stat = 'identity', position = position_dodge2(preserve = "single"), width = 0.5) +
       guides(fill = guide_legend(title = 'sample location')) +
       labs(x = "PFA",
            y = "concentration (ng/L)") +
-      theme_minimal()})
+      theme_minimal())})
   
   
   ### WIDGET 3
@@ -175,12 +181,12 @@ server <- function(input, output, session){
              samp_date == input$select_date_2) %>% 
       na.omit()})
   
-  output$pfa_difference <- renderPlot({
+  output$pfa_difference <- renderPlotly({ggplotly(
     ggplot(data = plot_data_2(), aes(x = parameter, y = difference)) +
       geom_bar(stat = 'identity', width = 0.5) +
       labs(x = "PFA",
            y = "Concentration difference (ng/L)") +
-      theme_minimal()}) 
+      theme_minimal())}) 
   
   
 } # end server
