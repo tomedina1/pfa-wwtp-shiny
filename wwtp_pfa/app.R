@@ -3,21 +3,23 @@ library(shiny)
 library(tidyverse)
 library(leaflet)
 library(shinyWidgets)
-library(leaflet.extras)
+library(bslib)
 
 
-ui <- fluidPage(
+my_theme <- bs_theme(bootswatch = "lux")
+
+ui <- fluidPage(theme = my_theme,
                 
-                navbarPage('App Name',
+                navbarPage('PFA Tracker',
                            
                            
                            tabPanel('Background'),
                            
-                           tabPanel('Widget 1',
+                           tabPanel('WWTP Map',
                                     sidebarLayout(
                                       sidebarPanel(width = 3,
                                         
-                                        prettyCheckboxGroup("select_site", label = h3("Select WWTP"),
+                                        prettyCheckboxGroup("select_site", label = h3("Select Treatment Site"),
                                                            choices = unique(wwtp_info$site_name),
                                                            plain = TRUE,
                                                            fill = TRUE,
@@ -33,7 +35,7 @@ ui <- fluidPage(
                                     ),
                            
                            
-                           tabPanel('Widget 2',
+                           tabPanel('PFA Concentrations',
                                     sidebarLayout(
                                       sidebarPanel(
                                         
@@ -48,14 +50,14 @@ ui <- fluidPage(
                                       ), # end sidebarPanel
                                       
                                       mainPanel(
-                                        plotOutput("pfa_plot")
+                                        plotOutput("pfa_plot", height = 700)
                                       ) # end mainPanel
                                     
                                       ) # end sidebarLayout
                                     ), # end tabPanel
                            
                            
-                           tabPanel('Widget 3',
+                           tabPanel('PFA Formation',
                                     sidebarLayout(
                                       sidebarPanel(
                                         
@@ -70,7 +72,7 @@ ui <- fluidPage(
                                       ), # end sidebarPanel
                                       
                                       mainPanel(
-                                        plotOutput("pfa_difference")
+                                        plotOutput("pfa_difference", height = 700)
                                       ) # end mainPanel
                                       
                                     ) # end sidebarLayout
