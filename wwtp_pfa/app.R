@@ -13,6 +13,7 @@ source('spatial_data.R')
 light <- bs_theme(version = 5, bootswatch = "lux")
 
 
+
 ui <- fluidPage(theme = light,
 
                 
@@ -40,9 +41,11 @@ ui <- fluidPage(theme = light,
                                   
                                     mainPanel(
                                       leafletOutput("map", height = 700)
-                                      ) # end mainPanel
-                                    )
-                                    ),
+                                      ) # end mainPanel 
+                                    
+                                    ) # end sidebarLayout
+                                    
+                                    ), # end tabPanel
                            
                            
                            tabPanel('PFA Concentrations',
@@ -64,6 +67,7 @@ ui <- fluidPage(theme = light,
                                       ) # end mainPanel
                                     
                                       ) # end sidebarLayout
+                                    
                                     ), # end tabPanel
                            
                            
@@ -86,6 +90,7 @@ ui <- fluidPage(theme = light,
                                       ) # end mainPanel
                                       
                                     ) # end sidebarLayout
+                                    
                            ), # end tabPanel
                            
                            
@@ -96,6 +101,7 @@ ui <- fluidPage(theme = light,
                                       mainPanel('output goes here') # end mainPanel
                                       
                                     ) # end sidebarLayout
+                                    
                            ), # end tabPanel
                            
                            
@@ -114,7 +120,6 @@ server <- function(input, output, session){
 
   
   ### WIDGET 1
-  
   map_reactive <- reactive({
     wwtp_info %>% 
       filter(site_name %in% input$select_site)
@@ -122,32 +127,30 @@ server <- function(input, output, session){
   
   
   observeEvent(input$selectall,
-               
                {if (input$selectall > 0) {
                    
                    if (input$selectall %% 2 == 0){
                      updatePrettyCheckboxGroup(session = session, 
-                                              inputId = "select_site",
-                                              choices = unique(wwtp_info$site_name),
-                                              selected = c(unique(wwtp_info$site_name)),
-                                              prettyOptions = list(animation = 'smooth', 
-                                                                   plain = TRUE,
-                                                                   fill = TRUE,
-                                                                   icon = icon('fas fa-check'))
-                                              )}
+                                               inputId = "select_site",
+                                               choices = unique(wwtp_info$site_name),
+                                               selected = c(unique(wwtp_info$site_name)),
+                                               prettyOptions = list(animation = 'smooth',
+                                                                    plain = TRUE,
+                                                                    fill = TRUE,
+                                                                    icon = icon('fas fa-check'))
+                                               )}
                  
                    else {
                      updatePrettyCheckboxGroup(session = session, 
-                                              inputId = "select_site",
-                                              choices = unique(wwtp_info$site_name),
-                                              selected = "",
-                                              prettyOptions = list(animation = 'smooth', 
-                                                                   plain = TRUE,
-                                                                   fill = TRUE,
-                                                                   icon = icon('fas fa-check'))
-                                              )}
-                 }
-                 
+                                               inputId = "select_site",
+                                               choices = unique(wwtp_info$site_name),
+                                               selected = " ",
+                                               prettyOptions = list(animation = 'smooth',
+                                                                    plain = TRUE,
+                                                                    fill = TRUE,
+                                                                    icon = icon('fas fa-check'))
+                                               )}
+                  }
                  })
   
   
@@ -166,8 +169,6 @@ server <- function(input, output, session){
                        lat = ~ latitude_decimal_degrees,
                        popup = ~ paste0(site_name))
     })
-
-
   
 
   ### WIDGET 2
@@ -197,11 +198,13 @@ server <- function(input, output, session){
     })
  
  
-  output$pfa_plot <- renderPlotly({ggplotly(
-    ggplot(data = plot_data(), aes(reorder(x = parameter, -mean_value), y = mean_value, fill = field_pt_name)) +
+  output$pfa_plot <- renderPlotly(
+    {ggplotly(
+      ggplot(data = plot_data(), 
+             aes(reorder(x = parameter, -mean_value), y = mean_value, fill = field_pt_name)) +
       geom_bar(stat = 'identity', position = position_dodge2(preserve = "single"), width = 0.5) +
       guides(fill = guide_legend(title = 'sample location')) +
-      scale_fill_manual(values = c('steelblue1', 'slategrey')) +
+      scale_fill_manual(values = c('slategrey', 'steelblue1')) +
       labs(x = "PFA",
            y = "concentration (ng/L)") +
       theme_minimal())
@@ -236,8 +239,10 @@ server <- function(input, output, session){
     })
   
   
-  output$pfa_difference <- renderPlotly({ggplotly(
-    ggplot(data = plot_data_2(), aes(x = reorder(parameter, -difference), y = difference), width = 0.5) +
+  output$pfa_difference <- renderPlotly(
+    {ggplotly(
+      ggplot(data = plot_data_2(), 
+             aes(x = reorder(parameter, -difference), y = difference), width = 0.5) +
       geom_bar(stat = 'identity', width = 0.5) +
       labs(x = "PFA",
            y = "Concentration difference (ng/L)") +

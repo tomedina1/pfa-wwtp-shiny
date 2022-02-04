@@ -3,7 +3,7 @@ library(tidyverse)
 library(here)
 library(janitor)
 
-### Get coordinates for ENCINA!!!
+
 encina <- data.frame(global_id = 'NPD100052058',
                      site_name = 'Encina Wastewater Authority',
                      latitude_decimal_degrees = 33.11671495315463,
@@ -18,7 +18,13 @@ wwtp_info <- read_csv(here('wwtp_pfa', 'data', 'facility_info.csv')) %>%
                           'WDR100035884', 'NPD10005205', 'NPD100051514', 'WDR100035948',
                           'WDR100030237', 'NPD100051499', 'WDR100032535', 'NPD100051624')) %>% 
   distinct(global_id, .keep_all = TRUE) %>%
-  rbind(encina)
+  rbind(encina) 
+
+
+wwtp_info <- wwtp_info[order(wwtp_info$site_name), ]
+
+
+
 
 
 

@@ -2,6 +2,7 @@
 library(tidyverse)
 library(here)
 library(janitor)
+library(lubridate)
 
 
 ### Hyperion WWTP (Los Angeles)
@@ -378,7 +379,8 @@ pfa_data_final <- pfa_data %>%
   group_by(wwtp, samp_date, field_pt_name, parameter) %>% 
   summarize(mean_value = mean(value)) %>%
   mutate(field_pt_name = factor(field_pt_name),
-         field_pt_name = fct_rev(field_pt_name)) ### averages the concentration values when there is multiple influent or effluent concentrations
+         field_pt_name = fct_rev(field_pt_name), ### averages the concentration values when there is multiple influent or effluent concentrations
+         samp_date = mdy(samp_date)) ### comverts date column to date class
 
   for(i in 1:length(pfa_data_final$parameter)){
   
@@ -400,7 +402,7 @@ shiny_data_final <- shiny_data %>%
            difference < 0 ~ FALSE,
            difference > 0 ~ TRUE)) %>% 
   filter(formation == TRUE,
-         difference > 2)
+         difference > 2) ### significant concentration difference
 
   for(i in 1:length(shiny_data$parameter)){
     
