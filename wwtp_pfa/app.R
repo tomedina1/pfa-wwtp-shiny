@@ -184,10 +184,11 @@ server <- function(input, output, session){
     })
   
   
-  observeEvent(input$select_location,
-                {updateSelectizeInput(session, input = "select_date",
-                                      choices = pfa_data_final[pfa_data_final$wwtp %in% input$select_location, 
-                                                              "samp_date", drop = TRUE])
+  observeEvent(input$select_location, {
+    updateSelectizeInput(session, input = "select_date",
+                         choices = pfa_data_final[pfa_data_final$wwtp %in% input$select_location, 
+                                                  "samp_date", 
+                                                  drop = TRUE])
                   })
 
   
@@ -198,16 +199,19 @@ server <- function(input, output, session){
     })
  
  
-  output$pfa_plot <- renderPlotly(
-    {ggplotly(
+output$pfa_plot <- renderPlotly({
+    ggplotly(
       ggplot(data = plot_data(), 
              aes(reorder(x = parameter, -mean_value), y = mean_value, fill = field_pt_name)) +
-      geom_bar(stat = 'identity', position = position_dodge2(preserve = "single"), width = 0.5) +
+      geom_bar(stat = 'identity', position = position_dodge2(preserve = "single"), width = 0.5,
+               aes(text = paste("parameter:", parameter, "\nconcentration:", mean_value, 'ng/L', 
+                                "\nsampling location:", field_pt_name, sep = " "))) +
       guides(fill = guide_legend(title = 'sample location')) +
       scale_fill_manual(values = c('slategrey', 'steelblue1')) +
       labs(x = "PFA",
            y = "concentration (ng/L)") +
-      theme_minimal())
+      theme_minimal(),
+      tooltip = 'text')
     })
   
   
@@ -224,8 +228,8 @@ server <- function(input, output, session){
     })
   
   
-  observeEvent(input$select_location_2,
-               {updateSelectizeInput(session, input = "select_date_2",
+  observeEvent(input$select_location_2, {
+               updateSelectizeInput(session, input = "select_date_2",
                                      choices = shiny_data_final[shiny_data_final$wwtp %in% input$select_location_2,
                                                                 "samp_date", drop = TRUE])
                  })
@@ -239,14 +243,17 @@ server <- function(input, output, session){
     })
   
   
-  output$pfa_difference <- renderPlotly(
-    {ggplotly(
+  output$pfa_difference <- renderPlotly({
+    ggplotly(
       ggplot(data = plot_data_2(), 
              aes(x = reorder(parameter, -difference), y = difference), width = 0.5) +
-      geom_bar(stat = 'identity', width = 0.5) +
+      geom_bar(stat = 'identity', width = 0.5,
+               aes(text = paste("parameter:", parameter, "\nconcentration difference:",
+                                difference, "ng/L", sep = " "))) +
       labs(x = "PFA",
            y = "Concentration difference (ng/L)") +
-      theme_minimal())
+      theme_minimal(),
+      tooltip = 'text')
     }) 
   
   

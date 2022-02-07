@@ -377,9 +377,9 @@ pfa_data <- rbind(carpinteria, encina, glendale, goleta, hyperion, irvine, loma,
 
 pfa_data_final <- pfa_data %>% 
   group_by(wwtp, samp_date, field_pt_name, parameter) %>% 
-  summarize(mean_value = mean(value)) %>%
+  summarize(mean_value = mean(value)) %>% ### averages the concentration values when there is multiple influent or effluent concentrations
   mutate(field_pt_name = factor(field_pt_name),
-         field_pt_name = fct_rev(field_pt_name), ### averages the concentration values when there is multiple influent or effluent concentrations
+         field_pt_name = fct_rev(field_pt_name), 
          samp_date = mdy(samp_date)) ### comverts date column to date class
 
   for(i in 1:length(pfa_data_final$parameter)){
