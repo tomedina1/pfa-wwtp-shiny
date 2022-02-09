@@ -10,6 +10,7 @@ library(plotly)
 source('data_wrangling.R')
 source('spatial_data.R')
 
+
 light <- bs_theme(version = 5, bootswatch = "lux")
 
 
@@ -88,17 +89,6 @@ ui <- fluidPage(theme = light,
                                       mainPanel(
                                         plotlyOutput("pfa_difference", height = 700)
                                       ) # end mainPanel
-                                      
-                                    ) # end sidebarLayout
-                                    
-                           ), # end tabPanel
-                           
-                           
-                           tabPanel('Widget 4',
-                                    sidebarLayout(
-                                      sidebarPanel('Widget goes here'), # end sidebarPanel
-                                      
-                                      mainPanel('output goes here') # end mainPanel
                                       
                                     ) # end sidebarLayout
                                     
