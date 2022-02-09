@@ -14,7 +14,6 @@ source('spatial_data.R')
 light <- bs_theme(version = 5, bootswatch = "lux")
 
 
-
 ui <- fluidPage(theme = light,
 
                 
