@@ -9,6 +9,7 @@ encina <- data.frame(global_id = 'NPD100052058',
                      latitude_decimal_degrees = 33.11671495315463,
                      longitude_decimal_degrees = -117.32169348355484)
 
+
 wwtp_info <- read_csv(here('wwtp_pfa', 'data', 'facility_info.csv')) %>% 
   clean_names() %>% 
   select(global_id, site_name, latitude_decimal_degrees, longitude_decimal_degrees) %>% 
