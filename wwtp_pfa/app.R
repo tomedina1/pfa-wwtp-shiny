@@ -9,6 +9,7 @@ library(plotly)
 
 source('data_wrangling.R')
 source('spatial_data.R')
+source('pfa_info.R')
 
 
 light <- bs_theme(version = 5, bootswatch = "lux")
@@ -224,8 +225,7 @@ output$pfa_plot <- renderPlotly({
                  })
   
   
-  plot_data_2 <- reactive({
-    shiny_data_final %>% 
+  plot_data_2 <- reactive({    shiny_data_final %>% 
       filter(wwtp == input$select_location_2,
              samp_date == input$select_date_2) %>% 
       na.omit()
