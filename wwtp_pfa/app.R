@@ -3,6 +3,7 @@ library(shiny)
 library(tidyverse)
 library(leaflet)
 library(shinyWidgets)
+library(darkmode)
 library(bslib)
 library(plotly)
 
@@ -12,14 +13,15 @@ source('spatial_data.R')
 source('pfa_info.R')
 
 
-light <- bs_theme(version = 5, bootswatch = "lux")
+my_theme <- bs_theme(bootswatch = "lux")
 
 
-ui <- fluidPage(theme = light,
+ui <- fluidPage(theme = my_theme,
+                
+                with_darkmode(),
 
                 
                 navbarPage('PFA Tracker',
-                           
                            
                            tabPanel('Background'),
                            
@@ -107,6 +109,8 @@ ui <- fluidPage(theme = light,
 
 
 server <- function(input, output, session){
+  
+
 
   
   ### WIDGET 1
