@@ -3,7 +3,6 @@ library(shiny)
 library(tidyverse)
 library(leaflet)
 library(shinyWidgets)
-library(darkmode)
 library(bslib)
 library(plotly)
 
@@ -17,8 +16,7 @@ my_theme <- bs_theme(bootswatch = "lux")
 
 
 ui <- fluidPage(theme = my_theme,
-                
-                with_darkmode(),
+              
 
                 
                 navbarPage('PFA Tracker',
@@ -229,7 +227,8 @@ output$pfa_plot <- renderPlotly({
                  })
   
   
-  plot_data_2 <- reactive({    shiny_data_final %>% 
+  plot_data_2 <- reactive({    
+    shiny_data_final %>% 
       filter(wwtp == input$select_location_2,
              samp_date == input$select_date_2) %>% 
       na.omit()

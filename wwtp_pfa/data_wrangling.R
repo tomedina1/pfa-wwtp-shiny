@@ -380,12 +380,35 @@ pfa_data_final <- pfa_data %>%
   summarize(mean_value = mean(value)) %>% ### averages the concentration values when there is multiple influent or effluent concentrations
   mutate(field_pt_name = factor(field_pt_name),
          field_pt_name = fct_rev(field_pt_name), 
-         samp_date = mdy(samp_date)) ### comverts date column to date class
+         samp_date = mdy(samp_date),
+         parameter = case_when(
+           parameter == 'PFHA' ~ 'PFHxA',
+           parameter == 'PFBTA' ~ 'PFBA',
+           parameter == 'NETFOSAA' ~ 'NEtFOSAA',
+           parameter == 'NMESFOSAA' ~ 'NMeFOSAA',
+           parameter == 'PFBSA' ~ 'PFBS',
+           parameter == 'PFHPA' ~ 'PFHpA',
+           parameter == 'PFHXSA' ~ 'PFHxS',
+           parameter == 'PFNDCA' ~ 'PFDA',
+           parameter == 'PFPA' ~ 'PFPeA',
+           parameter == 'MEFOSE' ~ 'MeFOSE',
+           parameter == 'PFPES' ~ 'PFPeS',
+           parameter == 'PFDOA' ~ 'PFDoA',
+           parameter == 'PFDSA' ~ 'PFDS',
+           parameter == 'PFTEDA' ~ 'PFTeDA',
+           parameter == 'PFUNDCA' ~ 'PFUnA',
+           parameter == 'PFOS_A' ~ 'FOSA',
+           parameter == 'PFHPSA' ~ 'PFHpS',
+           parameter == 'ETFOSA' ~ 'EtFOSA',
+           parameter == 'PFTRIDA' ~ 'PFTrDA',
+           parameter == 'PFHXDA' ~ 'PFHxDA',
+           parameter == 'HFPA-DA' ~ 'HFPA-DA',
+           parameter == 'ETFOSE' ~ 'EtFOSE'
+           
+           
+         )) ### converts date column to date class
 
-  for(i in 1:length(pfa_data_final$parameter)){
-  
-    if(pfa_data_final$parameter[i] == 'PFHA'){
-      pfa_data_final$parameter[i] = 'PFHxA'}}
+
 
 
 shiny_data <- pfa_data_final %>% 
