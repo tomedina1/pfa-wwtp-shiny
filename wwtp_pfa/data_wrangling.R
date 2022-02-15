@@ -373,41 +373,17 @@ sd <- read_csv(here('wwtp_pfa', 'data', 'sd.csv')) %>%
 ### Generate final df used in the shiny app
 pfa_data <- rbind(carpinteria, encina, glendale, goleta, hyperion, irvine, loma, lompoc,
                   ojai, oxnard, palmdale, palmsprings, port, sanbernardino, sanclem,
-                  sb, sd, tillman, valencia, whittier) ### binds all of the data frames together
+                  sb, sd, tillman, valencia, whittier)  ### binds all of the data frames together
+  
+  
+  ### binds all of the data frames together
 
 pfa_data_final <- pfa_data %>% 
   group_by(wwtp, samp_date, field_pt_name, parameter) %>% 
   summarize(mean_value = mean(value)) %>% ### averages the concentration values when there is multiple influent or effluent concentrations
   mutate(field_pt_name = factor(field_pt_name),
          field_pt_name = fct_rev(field_pt_name), 
-         samp_date = mdy(samp_date),
-         parameter = case_when(
-           parameter == 'PFHA' ~ 'PFHxA',
-           parameter == 'PFBTA' ~ 'PFBA',
-           parameter == 'NETFOSAA' ~ 'NEtFOSAA',
-           parameter == 'NMESFOSAA' ~ 'NMeFOSAA',
-           parameter == 'PFBSA' ~ 'PFBS',
-           parameter == 'PFHPA' ~ 'PFHpA',
-           parameter == 'PFHXSA' ~ 'PFHxS',
-           parameter == 'PFNDCA' ~ 'PFDA',
-           parameter == 'PFPA' ~ 'PFPeA',
-           parameter == 'MEFOSE' ~ 'MeFOSE',
-           parameter == 'PFPES' ~ 'PFPeS',
-           parameter == 'PFDOA' ~ 'PFDoA',
-           parameter == 'PFDSA' ~ 'PFDS',
-           parameter == 'PFTEDA' ~ 'PFTeDA',
-           parameter == 'PFUNDCA' ~ 'PFUnA',
-           parameter == 'PFOS_A' ~ 'FOSA',
-           parameter == 'PFHPSA' ~ 'PFHpS',
-           parameter == 'ETFOSA' ~ 'EtFOSA',
-           parameter == 'PFTRIDA' ~ 'PFTrDA',
-           parameter == 'PFHXDA' ~ 'PFHxDA',
-           parameter == 'HFPA-DA' ~ 'HFPA-DA',
-           parameter == 'ETFOSE' ~ 'EtFOSE'
-           
-           
-         )) ### converts date column to date class
-
+         samp_date = mdy(samp_date)) ### comverts date column to date class
 
 
 
@@ -426,11 +402,6 @@ shiny_data_final <- shiny_data %>%
            difference > 0 ~ TRUE)) %>% 
   filter(formation == TRUE,
          difference > 2) ### significant concentration difference
-
-  for(i in 1:length(shiny_data$parameter)){
-    
-    if(shiny_data$parameter[i] == 'PFHA'){
-      shiny_data$parameter[i] = 'PFHxA'}}
 
 
   
