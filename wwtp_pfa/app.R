@@ -21,7 +21,24 @@ ui <- fluidPage(theme = my_theme,
                 
                 navbarPage('PFA Tracker',
                            
-                           tabPanel('Background'),
+                           tabPanel('Background',
+                                    sidebarLayout(
+                                      sidebarPanel(width = 3,
+                                                
+                                                  sliderInput("mass_range",
+                                                              label = h3('Select a mass range'),
+                                                              min = 210,
+                                                              max = 815,
+                                                              value = c(395.1, 499.15),
+                                                              ticks = FALSE,
+                                                              sep = "")
+                                                  
+                                                  ),
+                                      mainPanel(
+                                        dataTableOutput("pfadt")
+                                      )
+                                    )),
+                           
                            
                            tabPanel('WWTP Map',
                                     sidebarLayout(
@@ -108,7 +125,24 @@ ui <- fluidPage(theme = my_theme,
 
 server <- function(input, output, session){
   
-
+  ### BACKGROUND
+  
+  
+  output$pfadt <- renderDataTable({
+    dt <- parameters[parameters$molar_mass >= input$mass_range[1] & parameters$molar_mass <= input$mass_range[2], ]
+    
+  },
+  
+  options = list(
+    columns = list(
+      list(title = 'PFA'),
+      list(title = 'Chemical Name'),
+      list(title = 'PFA Type'),
+      list(title = 'Molar Mass (g/mol)'),
+      list(title = 'Chemical Formula'))
+  ))
+  
+  
 
   
   ### WIDGET 1

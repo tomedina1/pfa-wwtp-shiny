@@ -32,3 +32,4 @@ chem_formula <- c('C7H2F12O4', 'C11H8F17NO3S', 'C12H8F17NO4S', 'C11H6F17NO4S',
 
 
 parameters <- cbind(parameters, molar_mass, chem_formula)
+
