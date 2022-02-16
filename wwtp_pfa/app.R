@@ -29,15 +29,20 @@ ui <- fluidPage(theme = my_theme,
                                                               label = h3('Select a mass range'),
                                                               min = 210,
                                                               max = 815,
-                                                              value = c(395.1, 499.15),
+                                                              value = c(390, 610),
                                                               ticks = FALSE,
                                                               sep = "")
                                                   
                                                   ),
+                                      
+                                      
                                       mainPanel(
                                         dataTableOutput("pfadt")
                                       )
-                                    )),
+                                      
+                                    )
+                                    
+                                    ),
                            
                            
                            tabPanel('WWTP Map',
@@ -134,6 +139,9 @@ server <- function(input, output, session){
   },
   
   options = list(
+    pageLength = 35,
+    info = FALSE,
+    dom = 'ft',
     columns = list(
       list(title = 'PFA'),
       list(title = 'Chemical Name'),
