@@ -383,7 +383,7 @@ pfa_data_final <- pfa_data %>%
   summarize(mean_value = mean(value)) %>% ### averages the concentration values when there is multiple influent or effluent concentrations
   mutate(field_pt_name = factor(field_pt_name),
          field_pt_name = fct_rev(field_pt_name), 
-         samp_date = mdy(samp_date)) ### comverts date column to date class
+         samp_date = mdy(samp_date)) ### converts date column to date class
 
 
 

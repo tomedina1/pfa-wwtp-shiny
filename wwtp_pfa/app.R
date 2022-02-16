@@ -17,7 +17,6 @@ my_theme <- bs_theme(bootswatch = "lux")
 
 ui <- fluidPage(theme = my_theme,
               
-
                 
                 navbarPage('PFA Tracker',
                            
