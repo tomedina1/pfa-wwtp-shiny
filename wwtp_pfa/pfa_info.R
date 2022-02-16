@@ -21,4 +21,14 @@ molar_mass <- c(395.10, 557.23, 585.24, 571.21, 300.10,
                 342.11, 330.05, 571.25, 328.15, 814.13)
 
 
-parameters <- cbind(parameters, molar_mass)
+chem_formula <- c('C7H2F12O4', 'C11H8F17NO3S', 'C12H8F17NO4S', 'C11H6F17NO4S',
+                  'C4HF9O3S', 'C4HF7O2', 'C6HF11O2', 'C7HF13O2', 'C6HF13O3S',
+                  'C9HF17O2', 'C10HF19O2', 'C8HF15O2', 'C8HF17O3S', 'C5HF9O2',
+                  'C5HF11O3S', 'C10H5F17O3S', 'C12HF23O2', 'C10HF21O3S', 'C14HF27O2',
+                  'C11HF21O2', 'C7HF15O3S', 'C8HF17O3S', 'C10H6F17NO2S', 'C13HF25O2',
+                  'C8H5F13O3S', 'C4HF7O2', 'C4H3F9O3S2', 'C6HF13O3S', 'C9HF19O3S',
+                  'C8H2F17NO2S', 'C8H5F11O2', 'C6HF11O3', 'C11H6F17NO4S', 'C6H5F9O3S',
+                  'C16HF31O2')
+
+
+parameters <- cbind(parameters, molar_mass, chem_formula)
