@@ -144,7 +144,6 @@ server <- function(input, output, session){
     columns = list(
       list(title = 'PFA'),
       list(title = 'Chemical Name'),
-      list(title = 'PFA Type'),
       list(title = 'Molar Mass (g/mol)'),
       list(title = 'Chemical Formula'))
   ))
