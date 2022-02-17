@@ -373,8 +373,8 @@ sd <- read_csv(here('wwtp_pfa', 'data', 'sd.csv')) %>%
 ### Generate final df used in the shiny app
 pfa_data <- rbind(carpinteria, encina, glendale, goleta, hyperion, irvine, loma, lompoc,
                   ojai, oxnard, palmdale, palmsprings, port, sanbernardino, sanclem,
-                  sb, sd, tillman, valencia, whittier) %>% 
-  mutate(parameter = case_when(
+                  sb, sd, tillman, valencia, whittier) %>%   ### binds all of the data frames together
+  mutate(parameter = case_when( ### adjust naming convention to standard
     parameter == 'PFOS_A' ~ 'PFOS',
     parameter == 'PFHA' ~ 'PFHxA',
     parameter == 'PFOSA' ~ 'FOSA',
@@ -393,14 +393,13 @@ pfa_data <- rbind(carpinteria, encina, glendale, goleta, hyperion, irvine, loma,
     parameter == 'PFBSA' ~ 'PFBS',
     TRUE ~ parameter),
     
-    parameter_name = case_when(
+    parameter_name = case_when( ### adjust naming convention to standard
       parameter_name == 'Perfluorohexane sulfonate' ~ 'Perfluorohexanesulfonic acid',
       parameter_name == 'Perfluorooctanoic sulfonate' ~ 'Perfluorooctane sulfonic acid',
       parameter_name == 'Perfluorobutane sulfonate' ~ 'Perfluorobutanesulfonic acid',
       parameter_name == 'Perfluorobutanoic acid' ~ 'Perfluorobutyric acid',
       TRUE ~ parameter_name))
   
-  ### binds all of the data frames together
 
 pfa_data_final <- pfa_data %>% 
   group_by(wwtp, samp_date, field_pt_name, parameter) %>% 
