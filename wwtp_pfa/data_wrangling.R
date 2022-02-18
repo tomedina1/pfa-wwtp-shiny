@@ -391,6 +391,7 @@ pfa_data <- rbind(carpinteria, encina, glendale, goleta, hyperion, irvine, loma,
     parameter == 'PFUNDCA' ~ 'PFUnA',
     parameter == 'PFDOA' ~ 'PFDoA',
     parameter == 'PFBSA' ~ 'PFBS',
+    parameter == 'PFTEDA' ~ 'PFTA',
     TRUE ~ parameter),
     
     parameter_name = case_when( ### adjust naming convention to standard

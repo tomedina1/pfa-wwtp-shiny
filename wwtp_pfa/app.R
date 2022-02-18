@@ -130,12 +130,8 @@ ui <- fluidPage(theme = my_theme,
 server <- function(input, output, session){
   
   ### BACKGROUND
-  
-  
   output$pfadt <- renderDataTable({
-    dt <- parameters[parameters$molar_mass >= input$mass_range[1] & parameters$molar_mass <= input$mass_range[2], ]
-    
-  },
+    dt <- parameters[parameters$molar_mass >= input$mass_range[1] & parameters$molar_mass <= input$mass_range[2], ]},
   
   options = list(
     pageLength = 35,
@@ -149,7 +145,6 @@ server <- function(input, output, session){
   ))
   
   
-
   
   ### WIDGET 1
   map_reactive <- reactive({
@@ -217,7 +212,8 @@ server <- function(input, output, session){
   
   
   observeEvent(input$select_location, {
-    updateSelectizeInput(session, input = "select_date",
+    updateSelectizeInput(session, 
+                         input = "select_date",
                          choices = pfa_data_final[pfa_data_final$wwtp %in% input$select_location, 
                                                   "samp_date", 
                                                   drop = TRUE])
@@ -235,9 +231,11 @@ output$pfa_plot <- renderPlotly({
     ggplotly(
       ggplot(data = plot_data(), 
              aes(reorder(x = parameter, -mean_value), y = mean_value, fill = field_pt_name)) +
+        
       geom_bar(stat = 'identity', position = position_dodge2(preserve = "single"), width = 0.5,
                aes(text = paste("parameter:", parameter, "\nconcentration:", mean_value, 'ng/L', 
                                 "\nsampling location:", field_pt_name, sep = " "))) +
+        
       guides(fill = guide_legend(title = 'sample location')) +
       scale_fill_manual(values = c('slategrey', 'steelblue1')) +
       labs(x = "PFA",
@@ -261,9 +259,11 @@ output$pfa_plot <- renderPlotly({
   
   
   observeEvent(input$select_location_2, {
-               updateSelectizeInput(session, input = "select_date_2",
-                                     choices = shiny_data_final[shiny_data_final$wwtp %in% input$select_location_2,
-                                                                "samp_date", drop = TRUE])
+               updateSelectizeInput(session, 
+                                    input = "select_date_2",
+                                    choices = shiny_data_final[shiny_data_final$wwtp %in% input$select_location_2,
+                                                               "samp_date", 
+                                                               drop = TRUE])
                  })
   
   
@@ -279,9 +279,11 @@ output$pfa_plot <- renderPlotly({
     ggplotly(
       ggplot(data = plot_data_2(), 
              aes(x = reorder(parameter, -difference), y = difference), width = 0.5) +
+        
       geom_bar(stat = 'identity', width = 0.5,
                aes(text = paste("parameter:", parameter, "\nconcentration difference:",
                                 difference, "ng/L", sep = " "))) +
+        
       labs(x = "PFA",
            y = "Concentration difference (ng/L)") +
       theme_minimal(),
