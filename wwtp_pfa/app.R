@@ -21,6 +21,7 @@ ui <- fluidPage(theme = my_theme,
                 navbarPage('PFA Tracker',
                            
                            tabPanel('Background',
+                                    includeMarkdown('background.md'),
                                     sidebarLayout(
                                       sidebarPanel(width = 3,
                                                 
@@ -85,6 +86,11 @@ ui <- fluidPage(theme = my_theme,
                                       ), # end sidebarPanel
                                       
                                       mainPanel(
+                                        
+                                        tags$style(type = "text/css",
+                                                   ".shiny-output-error { visibility: hidden; }",
+                                                   ".shiny-output-error: before { visibility: hidden; }"),
+                                        
                                         plotlyOutput("pfa_plot", height = 700)
                                       ) # end mainPanel
                                     
