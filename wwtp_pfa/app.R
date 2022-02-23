@@ -21,6 +21,7 @@ ui <- fluidPage(theme = my_theme,
                 
                 navbarPage('PFA Tracker',
                            
+                           
                            tabPanel('Background',
                                     
                                    
@@ -62,14 +63,16 @@ ui <- fluidPage(theme = my_theme,
 
                                                   
                                                   ),
-                                      
-                                      
-                                      
+                                  
                                       
                                       mainPanel(
+                                        
+                                        br(),
+                                        
                                         includeMarkdown('background.md'),
                                         
                                         dataTableOutput("pfadt")
+                                        
                                       )
                                       
                                     )
@@ -79,6 +82,7 @@ ui <- fluidPage(theme = my_theme,
                            
                            tabPanel('WWTP Map',
                                     sidebarLayout(
+                                      
                                       sidebarPanel(width = 3,
                                         
                                         
@@ -88,6 +92,7 @@ ui <- fluidPage(theme = my_theme,
                                                            fill = TRUE,
                                                            icon = icon("fas fa-check"),
                                                            animation = 'smooth'),
+                                        
                                         actionButton("selectall", label = "Select / Deselect all")
                                         
                                         ), # end sidebarPanel
@@ -95,7 +100,9 @@ ui <- fluidPage(theme = my_theme,
                                       
                                   
                                     mainPanel(
+                                      
                                       leafletOutput("map", height = 700)
+                                      
                                       ) # end mainPanel 
                                     
                                     ) # end sidebarLayout
@@ -104,7 +111,9 @@ ui <- fluidPage(theme = my_theme,
                            
                            
                            tabPanel('PFA Concentrations',
+                                    
                                     sidebarLayout(
+                                      
                                       sidebarPanel(
                                         
                                         selectInput(
@@ -168,7 +177,6 @@ ui <- fluidPage(theme = my_theme,
 server <- function(input, output, session){
   
   ### BACKGROUND
-  
   output$dl <- downloadHandler(
     
     filename = function(){
@@ -196,7 +204,6 @@ server <- function(input, output, session){
       list(title = 'Molar Mass (g/mol)'),
       list(title = 'Chemical Formula'))
   ))
-  
   
   
   ### WIDGET 1
