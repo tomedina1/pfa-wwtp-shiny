@@ -4,6 +4,7 @@
 ### Per and Polyfluoroalkyl Substances (PFAS)
 
 
+
 PFAS are organic compounds characterized by long carbon chains and multiple fluorine-carbon bonds. 
 Due to these bonds, PFAS do not degrade in the environment and have the ability to bioaccumulate. These chemicals have many uses, such as in:
 
@@ -13,6 +14,7 @@ Due to these bonds, PFAS do not degrade in the environment and have the ability 
 - firefighting foams
 - grease-resistant products
 - and many more. 
+
 
 PFAS are readily transported in many different environments and are found in virtually all compartments of the environment, most notably in soils and water. Studies have show that exposure to these chemicals is linked to health problems but little is known about how harmful these chemicals are and how much humans are exposed to them on a daily basis. More information on PFAS can be found at these following sites:
 

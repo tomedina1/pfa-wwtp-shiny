@@ -47,7 +47,7 @@ ui <- fluidPage(theme = my_theme,
                                                    
                                                    tags$div('For additional information on the chemical and physical properties of PFAs and other chemicals, visit',
                                                             tags$a(href = "https://pubchem.ncbi.nlm.nih.gov/", "PubChem"), '.'),
-                                                   
+
                                                    
                                                    hr(style = "border-top: 1px solid #000000;"),
                                                 
@@ -100,6 +100,8 @@ ui <- fluidPage(theme = my_theme,
                                       
                                   
                                     mainPanel(
+                                      
+                                      includeMarkdown('map_info.md'),
                                       
                                       leafletOutput("map", height = 700)
                                       
