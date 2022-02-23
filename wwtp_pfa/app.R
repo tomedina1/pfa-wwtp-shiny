@@ -19,16 +19,16 @@ my_theme <- bs_theme(bootswatch = "lux")
 ui <- fluidPage(theme = my_theme,
 
                 
-                navbarPage('PFA Tracker',
+                navbarPage('PFAS Tracker',
                            
                            
-                           tabPanel('Background',
+                           tabPanel('PFAS',
                                     
                                    
                                     sidebarLayout(
                                       sidebarPanel(width = 3,
                                                    
-                                                   h3('Additional PFA Info'),
+                                                   h3('Additional Info'),
                                                    
                                                    tags$div('Click below for additional detailed PFAs info from the',
                                                             tags$a(href="https://www.oecd.org/chemicalsafety/portal-perfluorinated-chemicals/", "OECD"), '.'),
@@ -110,7 +110,7 @@ ui <- fluidPage(theme = my_theme,
                                     ), # end tabPanel
                            
                            
-                           tabPanel('PFA Concentrations',
+                           tabPanel('PFAS Concentrations',
                                     
                                     sidebarLayout(
                                       
@@ -140,7 +140,7 @@ ui <- fluidPage(theme = my_theme,
                                     ), # end tabPanel
                            
                            
-                           tabPanel('PFA Formation',
+                           tabPanel('PFAS Formation',
                                     sidebarLayout(
                                       sidebarPanel(
                                         
