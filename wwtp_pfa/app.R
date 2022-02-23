@@ -101,6 +101,8 @@ ui <- fluidPage(theme = my_theme,
                                   
                                     mainPanel(
                                       
+                                      br(),
+                                      
                                       includeMarkdown('map_info.md'),
                                       
                                       leafletOutput("map", height = 700)
@@ -124,17 +126,41 @@ ui <- fluidPage(theme = my_theme,
                                         
                                         selectizeInput(
                                           "select_date", label = h3("Select Sampling Date"),
-                                          choices = unique(pfa_data_final$samp_date))
+                                          choices = unique(pfa_data_final$samp_date)),
+                                        
+                                        hr(style = "border-top: 1px solid #000000;"),
+                                        
+                                        h3('Data Information'),
+                                        
+                                        tags$div('Click the button below to download the raw concentration data (.csv).'),
+                                        
+                                        downloadButton('conc_data', 'Download concentration data here'),
+                                        
+                                        tags$div('This dataset contains information on the sampling site, sampling date, sampling location within the WWTP, the specific chemical
+                                                 being measured, and the measured concentrations.')
                             
                                       ), # end sidebarPanel
                                       
                                       mainPanel(
                                         
+                                        br(),
+                                        
+                                      
+                                        h3('PFAS Concentrations by Waste Water Treatment Plant'),
+                                        
+                                        
+                                        tags$div('Each treatment site contains unique PFAS at differing concentrations. 
+                                                 Select a wastewater treamtent plant and sampling date to view PFAS concentrations found in the influent and the effluent of the 
+                                                 water treatment site. Hover over the bars in the plot to get the concentration values.'),
+                                        
+                                        
                                         tags$style(type = "text/css",
                                                    ".shiny-output-error { visibility: hidden; }",
                                                    ".shiny-output-error: before { visibility: hidden; }"),
                                         
+                                        
                                         plotlyOutput("pfa_plot", height = 700)
+                                        
                                       ) # end mainPanel
                                     
                                       ) # end sidebarLayout
@@ -261,6 +287,21 @@ server <- function(input, output, session){
   
 
   ### WIDGET 2
+  
+  output$conc_data <- downloadHandler(
+    
+    filename = function(){
+      'pfa_data.csv'
+    },
+    
+    content = function(file){
+      write_csv(
+        'pfa_data.csv'
+      )
+    }
+  )
+  
+  
   location_reactive <- reactive({
     pfa_data_final %>% 
       filter(wwtp == input$select_location)
