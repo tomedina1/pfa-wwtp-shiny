@@ -195,6 +195,8 @@ ui <- fluidPage(theme = my_theme,
                                       
                                       mainPanel(
                                         
+                                        includeMarkdown('formation_info.md'),
+                                        
                                         plotlyOutput("pfa_difference", height = 800)
                                         
                                       ) # end mainPanel
