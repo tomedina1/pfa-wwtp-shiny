@@ -26,6 +26,7 @@ ui <- fluidPage(theme = my_theme,
                                     
                                    
                                     sidebarLayout(
+                                      
                                       sidebarPanel(width = 3,
                                                    
                                                    h3('Additional Info'),
@@ -81,10 +82,10 @@ ui <- fluidPage(theme = my_theme,
                            
                            
                            tabPanel('WWTP Map',
+                                    
                                     sidebarLayout(
                                       
                                       sidebarPanel(width = 3,
-                                        
                                         
                                         prettyCheckboxGroup("select_site", label = h3("Select Treatment Site"),
                                                            choices = unique(wwtp_info$site_name),
@@ -118,7 +119,7 @@ ui <- fluidPage(theme = my_theme,
                                     
                                     sidebarLayout(
                                       
-                                      sidebarPanel(
+                                      sidebarPanel(width = 3,
                                         
                                         selectInput(
                                           "select_location", label = h3("Select Location"),
@@ -130,9 +131,9 @@ ui <- fluidPage(theme = my_theme,
                                         
                                         hr(style = "border-top: 1px solid #000000;"),
                                         
-                                        h3('Data Information'),
+                                        h3('Data Download'),
                                         
-                                        tags$div('Click the button below to download the raw concentration data (.csv).'),
+                                        tags$div('Click the button below to download the raw concentration data as a CSV file.'),
                                         
                                         downloadButton('conc_data', 'Download concentration data here'),
                                         
@@ -145,19 +146,15 @@ ui <- fluidPage(theme = my_theme,
                                         
                                         br(),
                                         
-                                      
-                                        h3('PFAS Concentrations by Waste Water Treatment Plant'),
-                                        
+                                        h3('PFAS Concentrations by Wastewater Treatment Plant'),
                                         
                                         tags$div('Each treatment site contains unique PFAS at differing concentrations. 
                                                  Select a wastewater treamtent plant and sampling date to view PFAS concentrations found in the influent and the effluent of the 
                                                  water treatment site. Hover over the bars in the plot to get the concentration values.'),
                                         
-                                        
                                         tags$style(type = "text/css",
                                                    ".shiny-output-error { visibility: hidden; }",
                                                    ".shiny-output-error: before { visibility: hidden; }"),
-                                        
                                         
                                         plotlyOutput("pfa_plot", height = 700)
                                         
@@ -169,8 +166,10 @@ ui <- fluidPage(theme = my_theme,
                            
                            
                            tabPanel('PFAS Formation',
+                                    
                                     sidebarLayout(
-                                      sidebarPanel(
+                                      
+                                      sidebarPanel(width = 3, 
                                         
                                         selectInput(
                                           "select_location_2", label = h3("Select Location"),
@@ -178,12 +177,26 @@ ui <- fluidPage(theme = my_theme,
                                         
                                         selectizeInput(
                                           "select_date_2", label = h3("Select Sampling Date"),
-                                          choices = unique(shiny_data_final$samp_date))
+                                          choices = unique(shiny_data_final$samp_date)),
+                                        
+                                        hr(style = "border-top: 1px solid #000000;"),
+                                        
+                                        h3('Formation Data Download'),
+                                        
+                                        tags$div('Click the button below to download the raw concentration data as a CSV file.'),
+                                        
+                                        downloadButton('diff_data', 'Download WWTP PFAS Formation Data Here'),
+                                        
+                                        tags$div('This dataset contains information on the sampling site, sampling date, sampling location within the WWTP, the specific chemical
+                                                 being measured, the effluent and influent concentrations, and the measures concentration difference.')
                                         
                                       ), # end sidebarPanel
                                       
+                                      
                                       mainPanel(
+                                        
                                         plotlyOutput("pfa_difference", height = 700)
+                                        
                                       ) # end mainPanel
                                       
                                     ) # end sidebarLayout
@@ -330,7 +343,7 @@ server <- function(input, output, session){
     })
  
  
-output$pfa_plot <- renderPlotly({
+  output$pfa_plot <- renderPlotly({
     ggplotly(
       ggplot(data = plot_data(), 
              aes(reorder(x = parameter, -mean_value), y = mean_value, fill = field_pt_name)) +
@@ -349,6 +362,21 @@ output$pfa_plot <- renderPlotly({
   
   
   ### WIDGET 3
+
+  output$diff_data <- downloadHandler(
+  
+    filename = function(){
+      'difference_data_pfas.csv'
+    },
+  
+    content = function(file){
+      write_csv(
+        'diff_data.csv'
+      )
+    }
+  )
+
+
   location_reactive_2 <- reactive({
     shiny_data_final %>% 
       filter(wwtp == input$select_location_2)
