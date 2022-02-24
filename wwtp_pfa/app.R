@@ -156,7 +156,7 @@ ui <- fluidPage(theme = my_theme,
                                                    ".shiny-output-error { visibility: hidden; }",
                                                    ".shiny-output-error: before { visibility: hidden; }"),
                                         
-                                        plotlyOutput("pfa_plot", height = 700)
+                                        plotlyOutput("pfa_plot", height = 800)
                                         
                                       ) # end mainPanel
                                     
@@ -195,7 +195,7 @@ ui <- fluidPage(theme = my_theme,
                                       
                                       mainPanel(
                                         
-                                        plotlyOutput("pfa_difference", height = 700)
+                                        plotlyOutput("pfa_difference", height = 800)
                                         
                                       ) # end mainPanel
                                       

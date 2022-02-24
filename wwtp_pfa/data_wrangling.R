@@ -368,12 +368,27 @@ sd <- read_csv(here('wwtp_pfa', 'data', 'sd.csv')) %>%
     else{
       sd$field_pt_name[i] = 'influent'}}
 
+### Camrosa
+camrosa <- read_csv(here('wwtp_pfa', 'data', 'camrosa.csv')) %>% 
+  clean_names() %>% 
+  select(samp_date, field_pt_name, parameter:value, units) %>% 
+  filter(field_pt_name %in% c('EFF-002', 'INF-001', 'INF-002'),
+         parvq == '=',
+         units == 'NG/L') %>% 
+  mutate(wwtp = 'Camrosa Water Reclamation Facility')
 
+for(i in 1:length(camrosa$field_pt_name)){
+  
+  if(camrosa$field_pt_name[i] == 'EFF-002'){
+    camrosa$field_pt_name[i] = 'effluent'}
+  
+  else{
+    camrosa$field_pt_name[i] = 'influent'}}
 
 ### Generate final df used in the shiny app
 pfa_data <- rbind(carpinteria, encina, glendale, goleta, hyperion, irvine, loma, lompoc,
                   ojai, oxnard, palmdale, palmsprings, port, sanbernardino, sanclem,
-                  sb, sd, tillman, valencia, whittier) %>%   ### binds all of the data frames together
+                  sb, sd, tillman, valencia, whittier, camrosa) %>%   ### binds all of the data frames together
   mutate(parameter = case_when( ### adjust naming convention to standard
     parameter == 'PFOS_A' ~ 'PFOS',
     parameter == 'PFHA' ~ 'PFHxA',
