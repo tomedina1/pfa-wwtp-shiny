@@ -237,6 +237,7 @@ server <- function(input, output, session){
   
   options = list(
     pageLength = 35,
+    autoWidth = TRUE,
     info = FALSE,
     dom = 'ft',
     columns = list(
