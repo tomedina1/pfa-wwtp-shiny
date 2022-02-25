@@ -36,7 +36,7 @@ ui <- fluidPage(theme = my_theme,
                                                    
                                                    br(),
                                                    
-                                                   downloadButton('dl', 'Download Additional PFA information'),
+                                                   downloadButton('pfa_add_info', 'Download Additional PFA information'),
                                                    
                                                    br(),
                                                    br(),
@@ -56,7 +56,7 @@ ui <- fluidPage(theme = my_theme,
                                                               label = h3('Select a mass range'),
                                                               min = 210,
                                                               max = 815,
-                                                              value = c(390, 610),
+                                                              value = c(210, 815),
                                                               ticks = FALSE,
                                                               sep = ""),
                                                    
@@ -135,7 +135,7 @@ ui <- fluidPage(theme = my_theme,
                                         
                                         tags$div('Click the button below to download the raw concentration data as a CSV file.'),
                                         
-                                        downloadButton('conc_data', 'Download concentration data here'),
+                                        downloadButton('pfa_data', 'Download concentration data here'),
                                         
                                         tags$div('This dataset contains information on the sampling site, sampling date, sampling location within the WWTP, the specific chemical
                                                  being measured, and the measured concentrations.')
@@ -220,7 +220,7 @@ ui <- fluidPage(theme = my_theme,
 server <- function(input, output, session){
   
   ### BACKGROUND
-  output$dl <- downloadHandler(
+  output$pfa_add_info <- downloadHandler(
     
     filename = function(){
       'pfa_add_info.xlsx'
@@ -304,7 +304,7 @@ server <- function(input, output, session){
 
   ### WIDGET 2
   
-  output$conc_data <- downloadHandler(
+  output$pfa_data <- downloadHandler(
     
     filename = function(){
       'pfa_data.csv'
