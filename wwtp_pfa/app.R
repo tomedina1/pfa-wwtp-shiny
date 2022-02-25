@@ -356,7 +356,7 @@ server <- function(input, output, session){
                                 "\nsampling location:", field_pt_name, sep = " "))) +
         
       guides(fill = guide_legend(title = 'sample location')) +
-      scale_fill_manual(values = c('slategrey', 'steelblue1')) +
+      scale_fill_manual(values = c('slategrey', 'steelblue1'), drop = FALSE) +
       labs(x = "PFA",
            y = "concentration (ng/L)") +
       theme_minimal(),
