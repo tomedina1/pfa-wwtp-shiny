@@ -22,7 +22,7 @@ ui <- fluidPage(theme = my_theme,
                 navbarPage('PFAS Tracker',
                            
                            
-                           tabPanel('PFAS',
+                           tabPanel('PFAS Information',
                                     
                                    
                                     sidebarLayout(
