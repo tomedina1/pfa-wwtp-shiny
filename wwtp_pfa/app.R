@@ -21,12 +21,12 @@ ui <- fluidPage(theme = my_theme,
                 
                 navbarPage('PFAS Tracker',
                            
-                           
+                          
                            tabPanel('PFAS Information',
                                     
-                                   
                                     sidebarLayout(
                                       
+                                      ### this is the code asso
                                       sidebarPanel(width = 3,
                                                    
                                                    h3('Additional Info'),
