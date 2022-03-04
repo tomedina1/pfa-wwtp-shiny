@@ -1,16 +1,21 @@
 
+### Load packages
 library(shiny)
 library(tidyverse)
 library(leaflet)
 library(shinyWidgets)
 library(bslib)
+library(here)
 library(plotly)
 library(writexl)
 
-
-source('data_wrangling.R')
+### Source data from other .R
 source('spatial_data.R')
 source('pfa_info.R')
+
+### Read in data
+pfa_data_final <- read_csv(here('wwtp_pfa', 'pfa_data.csv'))
+shiny_data_final <- read_csv(here('wwtp_pfa', 'difference_data_pfas.csv'))
 
 
 my_theme <- bs_theme(bootswatch = "lux")

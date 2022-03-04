@@ -424,8 +424,6 @@ pfa_data_final <- pfa_data %>%
          field_pt_name = fct_rev(field_pt_name), 
          samp_date = mdy(samp_date)) ### converts date column to date class
 
-write_csv(pfa_data_final, 'pfa_data.csv')
-
 
 shiny_data <- pfa_data_final %>% 
   pivot_wider(names_from = field_pt_name,
@@ -443,5 +441,7 @@ shiny_data_final <- shiny_data %>%
   filter(formation == TRUE,
          difference > 2) ### significant concentration difference
 
+### csv output of data for shiny app download
+write_csv(pfa_data_final, 'pfa_data.csv')
 write_csv(shiny_data_final, 'difference_data_pfas.csv')
   
