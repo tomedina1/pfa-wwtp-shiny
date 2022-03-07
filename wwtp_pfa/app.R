@@ -9,14 +9,14 @@ library(here)
 library(plotly)
 library(writexl)
 
-### Source data from other scripts
-source('spatial_data.R')
-source('pfa_info.R')
-
 ### Read in data
 pfa_data <- read_csv(here('wwtp_pfa', 'pfa.csv'))
 pfa_data_final <- read_csv(here('wwtp_pfa', 'pfa_data.csv'))
 shiny_data_final <- read_csv(here('wwtp_pfa', 'difference_data_pfas.csv'))
+
+### Source data from other scripts
+source('spatial_data.R')
+source('pfa_info.R')
 
 ### Add a theme to the shiny app
 my_theme <- bs_theme(bootswatch = "lux")

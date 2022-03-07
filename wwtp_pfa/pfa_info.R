@@ -2,6 +2,8 @@
 library(tidyverse)
 
 ### Parameters and parameter names
+pfa_data <- read_csv(here('wwtp_pfa', 'pfa.csv'))
+
 parameters <- data.frame(
   unique(pfa_data$parameter),
   unique(pfa_data$parameter_name))  %>% 

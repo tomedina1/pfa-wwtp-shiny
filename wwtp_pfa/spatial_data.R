@@ -3,6 +3,7 @@ library(tidyverse)
 library(here)
 library(janitor)
 
+
 ### Manually adding Encina Wastewater Authority
 encina <- data.frame(global_id = 'NPD100052058',
                      site_name = 'Encina Wastewater Authority',
@@ -32,8 +33,6 @@ flow <- c(1.5, 2, 38.78, 80, 11, 48, 7.64, 450, 5, 20, 4.5, 33.5, 3, 31.7, 16.5,
 
 wwtp_info <- wwtp_info %>% 
   cbind(flow)
-
-### Address
 
 
 
