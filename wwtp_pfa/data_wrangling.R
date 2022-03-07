@@ -442,6 +442,7 @@ shiny_data_final <- shiny_data %>%
          difference > 2) ### significant concentration difference
 
 ### csv output of data for shiny app download
+write_csv(pfa_data, 'pfa.csv')
 write_csv(pfa_data_final, 'pfa_data.csv')
 write_csv(shiny_data_final, 'difference_data_pfas.csv')
   

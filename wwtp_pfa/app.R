@@ -14,6 +14,7 @@ source('spatial_data.R')
 source('pfa_info.R')
 
 ### Read in data
+pfa_data <- read_csv(here('wwtp_pfa', 'pfa.csv'))
 pfa_data_final <- read_csv(here('wwtp_pfa', 'pfa_data.csv'))
 shiny_data_final <- read_csv(here('wwtp_pfa', 'difference_data_pfas.csv'))
 
@@ -303,7 +304,8 @@ server <- function(input, output, session){
       clearMarkers() %>% 
       addAwesomeMarkers(lng = ~ longitude_decimal_degrees,
                        lat = ~ latitude_decimal_degrees,
-                       popup = ~ paste0(site_name))
+                       popup = ~ paste(site_name, "<br>",
+                                       "Design Flow:", flow, 'MGD', sep = " "))
     })
   
 

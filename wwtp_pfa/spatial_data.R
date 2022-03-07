@@ -26,20 +26,15 @@ wwtp_info <- read_csv(here('wwtp_pfa', 'data', 'facility_info.csv')) %>%
 ### Alphabetize the data
 wwtp_info <- wwtp_info[order(wwtp_info$site_name), ]
 
-### Population Served
-# population <- c(
-  # Camrosa 
-  #30000,
-  # Carpinteria,
-  #15619,
-  # San Clemente
-  #51522,
-  # Tillman
-  #800000,
-  
-  # Hyperion
-  #4e6,
-  #)
+### Design Flow Info 
+flow <- c(1.5, 2, 38.78, 80, 11, 48, 7.64, 450, 5, 20, 4.5, 33.5, 3, 31.7, 16.5,
+          15, 240, 100, 25, 30, 21.6)
+
+wwtp_info <- wwtp_info %>% 
+  cbind(flow)
+
+### Address
+
 
 
 

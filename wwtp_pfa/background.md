@@ -16,7 +16,7 @@ Due to these bonds, PFAS do not degrade in the environment and have the ability 
 - and many more. 
 
 
-PFAS are readily transported in many different environments and are found in virtually all compartments of the environment, most notably in soils and water. Studies have show that exposure to these chemicals is linked to health problems but little is known about how harmful these chemicals are and how much humans are exposed to them on a daily basis. More information on PFAS can be found at these following sites:
+PFAS are readily transported in many different environments and are found in virtually all compartments of the environment, most notably in soils and water. Studies have shown that exposure to these chemicals is linked to health problems but little is known about how harmful these chemicals are and how much humans are exposed to them on a daily basis. More information on PFAS can be found at these following sites:
 
 - [Environmental Protection Agency (EPA)](https://www.epa.gov/pfas/pfas-explained)
  
