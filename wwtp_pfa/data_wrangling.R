@@ -13,7 +13,7 @@ hyperion <- read_csv(here('wwtp_pfa','data','hyperion.csv')) %>%
          parvq == '=',
          units == 'NG/L',
          !(samp_date %in% c('10/14/2020', '9/14/2021'))) %>% 
-  mutate(wwtp = 'Hyperion WWTP')
+  mutate(wwtp = 'Hyperion Wastewater Treatment Plant')
 
   for(i in 1:length(hyperion$field_pt_name)){
   
@@ -50,7 +50,7 @@ tillman <- read_csv(here('wwtp_pfa', 'data', 'tillman.csv')) %>%
          parvq == '=',
          units == 'NG/L',
          samp_date != '10/14/2020') %>% 
-  mutate(wwtp = 'Donald C. Tillman WWRP')
+  mutate(wwtp = 'Donald C. Tillman Wastewater Reclamation Plant')
 
   for(i in 1:length(tillman$field_pt_name)){
   
@@ -88,7 +88,7 @@ glendale <- read_csv(here('wwtp_pfa', 'data', 'glendale.csv')) %>%
          parvq == '=',
          units == 'NG/L',
          samp_date != '10/14/2020') %>% 
-  mutate(wwtp = 'Los Angeles-Glendale WWRP')
+  mutate(wwtp = 'Los Angeles-Glendale Wastewater Reclamation Plant')
 
   for(i in 1:length(glendale$field_pt_name)){
   
@@ -106,7 +106,7 @@ irvine <- read_csv(here('wwtp_pfa', 'data', 'irvine.csv')) %>%
   filter(field_pt_name %in% c('MWRP FINAL', 'MWRP INF'),
          parvq == '=',
          units == 'NG/L') %>% 
-  mutate(wwtp = 'Michelson WWRF')
+  mutate(wwtp = 'Michelson Wastewater Reclamation Facility')
 
   for(i in 1:length(irvine$field_pt_name)){
   
@@ -124,7 +124,7 @@ sanclem <- read_csv(here('wwtp_pfa', 'data', 'sanclemente.csv')) %>%
   filter(field_pt_name %in% c('CSCRECYCLE', 'CSCINF'),
          parvq == '=',
          units == 'NG/L') %>%
-  mutate(wwtp = 'City of San Clemente WRP')
+  mutate(wwtp = 'City of San Clemente Wastewater Reclamation Plant')
 
   for(i in 1:length(sanclem$field_pt_name)){
     
@@ -142,7 +142,7 @@ loma <- read_csv(here('wwtp_pfa', 'data', 'pointloma.csv')) %>%
   filter(field_pt_name %in% c('PLE', 'PLR'),
          parvq == '=',
          units == 'NG/L') %>%
-  mutate(wwtp = 'Point Loma WWTP & Ocean Outfall')
+  mutate(wwtp = 'Point Loma Wastewater Treatment Plant')
 
   for(i in 1:length(loma$field_pt_name)){
   
@@ -160,7 +160,7 @@ palmsprings <- read_csv(here('wwtp_pfa', 'data', 'palmsprings.csv')) %>%
   filter(field_pt_name %in% c('PSWWTF-EFF', 'PSWWTF-INF'),
          parvq == '=',
          units == 'NG/L') %>%
-  mutate(wwtp = 'Palm Springs WWTF')
+  mutate(wwtp = 'Palm Springs Wastewater Treatment Facility')
 
   for(i in 1:length(palmsprings$field_pt_name)){
     
@@ -178,7 +178,7 @@ sanbernardino <- read_csv(here('wwtp_pfa', 'data', 'sanbernardino.csv')) %>%
   filter(field_pt_name %in% c('EFF-FD-GRAB', 'EFF-FS-GRAB', 'INF-FD-GRAB', 'INF-FS-GRAB'),
          parvq == '=',
          units == 'NG/L') %>%
-  mutate(wwtp = 'Margaret H. Chandler WWRF')
+  mutate(wwtp = 'Margaret H. Chandler Wastewater Reclamation Facility')
 
   for(i in 1:length(sanbernardino$field_pt_name)){
   
@@ -214,7 +214,7 @@ goleta <- read_csv(here('wwtp_pfa', 'data', 'goleta.csv')) %>%
   filter(field_pt_name %in% c('FINAL EFF', 'INFLUENT'),
          parvq == '=',
          units == 'NG/L') %>% 
-  mutate(wwtp = 'Goleta SD WWTP')
+  mutate(wwtp = 'Goleta Sanitation District Wastewater Treatment Plant')
 
   for(i in 1:length(goleta$field_pt_name)){
     
@@ -232,7 +232,7 @@ sb <- read_csv(here('wwtp_pfa', 'data', 'sb.csv')) %>%
   filter(field_pt_name %in% c('EFF-001A', 'INF-01', 'INF-02', 'INF-03'),
          parvq == '=',
          units == 'NG/L') %>%
-  mutate(wwtp = 'El Estero Water Resource Center NPDES')
+  mutate(wwtp = 'El Estero Water Resource Center')
 
   for(i in 1:length(sb$field_pt_name)){
     
@@ -250,7 +250,7 @@ carpinteria <- read_csv(here('wwtp_pfa', 'data', 'carpinteria.csv')) %>%
   filter(field_pt_name %in% c('M-001 A', 'M-INF'),
          parvq == '=',
          units == 'NG/L') %>% 
-  mutate(wwtp = 'Carpinteria SD WWTP')
+  mutate(wwtp = 'Carpinteria Sanitation District Wastewater Treatment Plant')
 
   for(i in 1:length(carpinteria$field_pt_name)){
     
@@ -268,7 +268,7 @@ ojai <- read_csv(here('wwtp_pfa', 'data', 'ojai.csv')) %>%
   filter(field_pt_name %in% c('EFFLUENT', 'INFLUENT'),
          parvq == '=',
          units == 'NG/L') %>% 
-  mutate(wwtp = 'Ojai Valley WWTP')
+  mutate(wwtp = 'Ojai Valley Wastewater Treatment Plant')
 
   for(i in 1:length(ojai$field_pt_name)){
     
@@ -304,7 +304,7 @@ oxnard <- read_csv(here('wwtp_pfa', 'data', 'oxnard.csv')) %>%
   filter(field_pt_name %in% c('EFF-001B', 'INF-001'),
          parvq == '=',
          units == 'NG/L') %>% 
-  mutate(wwtp = 'Oxnard WWTP')
+  mutate(wwtp = 'Oxnard Wastewater Treatment Plant')
 
   for(i in 1:length(oxnard$field_pt_name)){
   
@@ -322,7 +322,7 @@ valencia <- read_csv(here('wwtp_pfa', 'data', 'valencia.csv')) %>%
   filter(field_pt_name %in% c('VAL_CL_TER', 'VAL_RAW'),
          parvq == '=',
          units == 'NG/L') %>% 
-  mutate(wwtp = 'Valencia WRP')
+  mutate(wwtp = 'Valencia Water Reclamation Plant')
 
   for(i in 1:length(valencia$field_pt_name)){
   
@@ -358,7 +358,7 @@ sd <- read_csv(here('wwtp_pfa', 'data', 'sd.csv')) %>%
   filter(field_pt_name %in% c('SB_OUTFALL', 'SB_REC_H2O', 'SB_INF_02'),
          parvq == '=',
          units == 'NG/L') %>% 
-  mutate(wwtp = 'South Bay WRP')
+  mutate(wwtp = 'South Bay Water Reclamation Plant')
 
   for(i in 1:length(sd$field_pt_name)){
   
