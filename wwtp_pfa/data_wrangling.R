@@ -286,7 +286,7 @@ lompoc <- read_csv(here('wwtp_pfa', 'data', 'lompoc.csv')) %>%
   filter(field_pt_name %in% c('EFF-001', 'INF-001'),
          parvq == '=',
          units == 'NG/L') %>% 
-  mutate(wwtp = 'Lompoc City WRP')
+  mutate(wwtp = 'Lompoc City Wastewater Reclamation Plant')
 
   for(i in 1:length(lompoc$field_pt_name)){
   

@@ -19,7 +19,7 @@ source('spatial_data.R')
 source('pfa_info.R')
 
 ### Add a theme to the shiny app
-my_theme <- bs_theme(bootswatch = "lux")
+my_theme <- bs_theme(bootswatch = "lux", "font-size-base" = "1rem")
 
 
 ui <- fluidPage(theme = my_theme,
@@ -54,7 +54,6 @@ ui <- fluidPage(theme = my_theme,
                                                    
                                                    tags$div('For additional information on the chemical and physical properties of PFAs and other chemicals, visit',
                                                             tags$a(href = "https://pubchem.ncbi.nlm.nih.gov/", "PubChem"), '.'),
-
                                                    
                                                    hr(style = "border-top: 1px solid #000000;"),
                                                 
@@ -125,7 +124,7 @@ ui <- fluidPage(theme = my_theme,
                                     
                                     sidebarLayout(
                                       
-                                      sidebarPanel(width = 3,
+                                      sidebarPanel(width = 4,
                                         
                                         selectInput(
                                           "select_location", label = h3("Select Location"),
@@ -148,7 +147,7 @@ ui <- fluidPage(theme = my_theme,
                             
                                       ), # end sidebarPanel
                                       
-                                      mainPanel(
+                                      mainPanel(width = 8,
                                         
                                         br(),
                                         
@@ -175,7 +174,7 @@ ui <- fluidPage(theme = my_theme,
                                     
                                     sidebarLayout(
                                       
-                                      sidebarPanel(width = 3, 
+                                      sidebarPanel(width = 4, 
                                         
                                         selectInput(
                                           "select_location_2", label = h3("Select Location"),
@@ -191,7 +190,7 @@ ui <- fluidPage(theme = my_theme,
                                         
                                         tags$div('Click the button below to download the raw concentration data as a CSV file.'),
                                         
-                                        downloadButton('diff_data', 'Download WWTP PFAS Formation Data Here'),
+                                        downloadButton('diff_data', 'Download PFAS Formation Data Here'),
                                         
                                         tags$div('This dataset contains information on the sampling site, sampling date, sampling location within the WWTP, the specific chemical
                                                  being measured, the effluent and influent concentrations, and the measures concentration difference.')
@@ -199,7 +198,9 @@ ui <- fluidPage(theme = my_theme,
                                       ), # end sidebarPanel
                                       
                                       
-                                      mainPanel(
+                                      mainPanel(width = 8,
+                                        
+                                        br(),
                                         
                                         includeMarkdown('formation_info.md'),
                                         
@@ -215,7 +216,75 @@ ui <- fluidPage(theme = my_theme,
                            tabPanel('References'),
                            
                            
-                           tabPanel('Contact')
+                           tabPanel('About',
+                                    
+                                    fluidRow(
+                                      
+                                      column(1),
+                                      
+                                      column(5,
+                                             
+                                             align = "center",
+                                             
+                                             br(),
+                                             
+                                             h3(style="text-align: left;",
+                                                'About the Author'),
+                                             
+                                             hr(style = "border-top: 1px solid #000000;"),
+                                             
+                                             p(style="text-align: left;",
+                                             'Taylor Medina is a Masters of Science in Environmental Science and Management (MESM) student at the Bren School of 
+                                               Environmental Science and Management at the University of California Santa Barbara. He is focusing on Pollution Prevention 
+                                               and Remediation and is interested in the prevalence of emerging pollutants and their effects on the environment as well as 
+                                               applying data science to a variety of environmental applications.'),
+                                             
+                                             actionButton(inputId = 'git',
+                                                          label = 'Github',
+                                                          icon = icon("fa-brands fa-github"),
+                                                          onclick = "window.open('https://github.com/tomedinabren')"),
+                                             
+                                             
+                                             actionButton(inputId = 'linkedin',
+                                                          label = 'LinkedIn',
+                                                          icon = icon("fa-brands fa-linkedin"),
+                                                          onclick = "window.open('https://www.linkedin.com/in/taylor-medina-03b548225/')"),
+                                             
+                                             
+                                             actionButton(inputId = 'email',
+                                                          label = 'Email',
+                                                          icon = icon("fa-solid fa-envelope"),
+                                                          href = "mailto:tomedina@bren.ucsb.edu"),
+                                             
+                                             br(),
+                                             
+                                             br(),
+                                             
+                                             HTML('<img src="bren.jpg" style="height: 120px; width:650px;"/>')
+
+
+                                             ),
+                                      
+                                      column(1),
+                                      
+                                      column(5,
+                                             
+                                             br(),
+                                             br(),
+                                             
+                                             HTML('<img src="taylor.jpg" alt="Taylor Medina" style="height: 450px; width:310px;"/>'),
+                                             
+                                             
+                                            )
+                                      
+                                      
+                                    )
+                                    
+                                   
+                                    
+                )
+                           
+
                            
                            
                            ) # end navbarPage
