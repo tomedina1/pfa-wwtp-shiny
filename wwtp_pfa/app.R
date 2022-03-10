@@ -1,4 +1,10 @@
 
+### PFAS TRACKER SOURCE CODE
+### Contact tomedina@bren.ucsb.edu if you have any questions
+
+
+### PFAS TRACKER SETUP
+
 ### Load packages
 library(shiny)
 library(tidyverse)
@@ -22,17 +28,19 @@ source('pfa_info.R')
 my_theme <- bs_theme(bootswatch = "lux", "font-size-base" = "1rem")
 
 
+### User Interface 
 ui <- fluidPage(theme = my_theme,
 
                 
                 navbarPage('PFAS Tracker',
                            
-                          
+                           
+                           ### Tab 1: Information on PFAS - Includes slider and interactive data table
                            tabPanel('PFAS Information',
                                     
                                     sidebarLayout(
                                       
-                                      ### this is the code asso
+                                    
                                       sidebarPanel(width = 3,
                                                    
                                                    h3('Additional Info'),
@@ -56,7 +64,8 @@ ui <- fluidPage(theme = my_theme,
                                                             tags$a(href = "https://pubchem.ncbi.nlm.nih.gov/", "PubChem"), '.'),
                                                    
                                                    hr(style = "border-top: 1px solid #000000;"),
-                                                
+                                                   
+                                                   ### interactive slider
                                                    sliderInput("mass_range",
                                                               label = h3('Select a mass range'),
                                                               min = 210,
@@ -65,9 +74,9 @@ ui <- fluidPage(theme = my_theme,
                                                               ticks = FALSE,
                                                               sep = ""),
                                                    
-                                                   p('This slider selects a range of molar masses (g/mol) to display the PFAs being studied that have masses in the selected range.')
+                                                   p('This slider selects a range of molar masses (g/mol) to display the PFAs being studied that have 
+                                                     masses in the selected range.')
 
-                                                  
                                                   ),
                                   
                                       
@@ -77,6 +86,7 @@ ui <- fluidPage(theme = my_theme,
                                         
                                         includeMarkdown('background.md'),
                                         
+                                        ### Data Table Widget
                                         dataTableOutput("pfadt")
                                         
                                       )
@@ -86,24 +96,25 @@ ui <- fluidPage(theme = my_theme,
                                     ),
                            
                            
+                           ### Tab 2: WWTP Maps - Contains checkbox group, select all action button, and Leaflet Map Output
                            tabPanel('WWTP Map',
                                     
                                     sidebarLayout(
                                       
                                       sidebarPanel(width = 3,
-                                        
-                                        prettyCheckboxGroup("select_site", label = h3("Select Treatment Site"),
+                                                   
+                                                   ### checkbox widget
+                                                   prettyCheckboxGroup("select_site", label = h3("Select Treatment Site"),
                                                            choices = unique(wwtp_info$site_name),
                                                            plain = TRUE,
                                                            fill = TRUE,
                                                            icon = icon("fas fa-check"),
                                                            animation = 'smooth'),
+                                                   
+                                                   ### select all button
+                                                   actionButton("selectall", label = "Select / Deselect all")
                                         
-                                        actionButton("selectall", label = "Select / Deselect all")
-                                        
-                                        ), # end sidebarPanel
-                                 
-                                      
+                                        ), 
                                   
                                     mainPanel(
                                       
@@ -111,63 +122,67 @@ ui <- fluidPage(theme = my_theme,
                                       
                                       includeMarkdown('map_info.md'),
                                       
+                                      ### Leaflet Map Output
                                       leafletOutput("map", height = 700)
                                       
-                                      ) # end mainPanel 
+                                      ) 
                                     
-                                    ) # end sidebarLayout
+                                    ) 
                                     
-                                    ), # end tabPanel
+                                    ), 
                            
                            
+                           ### Tab 3: PFAS concentrations plot - contains select input widget and plotly output
                            tabPanel('PFAS Concentrations',
                                     
                                     sidebarLayout(
                                       
                                       sidebarPanel(width = 4,
-                                        
-                                        selectInput(
-                                          "select_location", label = h3("Select Location"),
-                                          choices = unique(pfa_data_final$wwtp)), 
-                                        
-                                        selectizeInput(
-                                          "select_date", label = h3("Select Sampling Date"),
-                                          choices = unique(pfa_data_final$samp_date)),
-                                        
-                                        hr(style = "border-top: 1px solid #000000;"),
-                                        
-                                        h3('Data Download'),
-                                        
-                                        tags$div('Click the button below to download the raw concentration data as a CSV file.'),
-                                        
-                                        downloadButton('pfa_data', 'Download concentration data here'),
-                                        
-                                        tags$div('This dataset contains information on the sampling site, sampling date, sampling location within the WWTP, the specific chemical
-                                                 being measured, and the measured concentrations.')
-                            
-                                      ), # end sidebarPanel
+                                                   
+                                                   ### selectize input widgets
+                                                   selectInput(
+                                                     "select_location", label = h3("Select Location"),
+                                                     choices = unique(pfa_data_final$wwtp)), 
+                                                   
+                                                   selectizeInput(
+                                                     "select_date", label = h3("Select Sampling Date"),
+                                                     choices = unique(pfa_data_final$samp_date)),
+                                                   
+                                                   hr(style = "border-top: 1px solid #000000;"),
+                                                   
+                                                   h3('Data Download'),
+                                                   
+                                                   tags$div('Click the button below to download the raw concentration data as a CSV file.'),
+                                                   
+                                                   ### download action button
+                                                   downloadButton('pfa_data', 'Download concentration data here'),
+                                                   
+                                                   tags$div('This dataset contains information on the sampling site, sampling date, sampling 
+                                                   location within the WWTP, the specific chemical being measured, and the measured concentrations.')
+                                                   
+                                                   ), 
                                       
                                       mainPanel(width = 8,
-                                        
-                                        br(),
-                                        
-                                        h3('PFAS Concentrations by Wastewater Treatment Plant'),
-                                        
-                                        tags$div('Each treatment site contains unique PFAS at differing concentrations. 
-                                                 Select a wastewater treamtent plant and sampling date to view PFAS concentrations found in the influent and the effluent of the 
-                                                 water treatment site. Hover over the bars in the plot to get the concentration values.'),
-                                        
-                                        tags$style(type = "text/css",
-                                                   ".shiny-output-error { visibility: hidden; }",
-                                                   ".shiny-output-error: before { visibility: hidden; }"),
-                                        
-                                        plotlyOutput("pfa_plot", height = 800)
-                                        
-                                      ) # end mainPanel
+                                                
+                                                br(),
+                                                
+                                                h3('PFAS Concentrations by Wastewater Treatment Plant'),
+                                                
+                                                tags$div('Each treatment site contains unique PFAS at differing concentrations. 
+                                                 Select a wastewater treamtent plant and sampling date to view PFAS concentrations found in the influent and 
+                                                 the effluent of the water treatment site. Hover over the bars in the plot to get the concentration values.'),
+                                                
+                                                tags$style(type = "text/css",
+                                                           ".shiny-output-error { visibility: hidden; }",
+                                                           ".shiny-output-error: before { visibility: hidden; }"),
+                                                
+                                                ### Plotly widget
+                                                plotlyOutput("pfa_plot", height = 800)
+                                                
+                                                ) 
+                                      ) 
                                     
-                                      ) # end sidebarLayout
-                                    
-                                    ), # end tabPanel
+                                    ), 
                            
                            
                            tabPanel('PFAS Formation',
