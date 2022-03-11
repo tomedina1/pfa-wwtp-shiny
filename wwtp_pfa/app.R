@@ -45,7 +45,7 @@ ui <- fluidPage(theme = my_theme,
                                                    
                                                    h3('Additional Info'),
                                                    
-                                                   HTML('<center><img src="pfos.jpg" alt="PFOS" style="height: 150px; width:300px;"/></center>'),
+                                                   HTML('<center><img src="pfos.jpg" alt="PFOS" style="height: 150px; width:320px;"/></center>'),
                                                    
                                                    tags$div('Click below for additional detailed PFAS info from the',
                                                             tags$a(href="https://www.oecd.org/chemicalsafety/portal-perfluorinated-chemicals/", "OECD"), '.'),
