@@ -89,11 +89,7 @@ ui <- fluidPage(theme = my_theme,
                                         ### Data Table Widget
                                         dataTableOutput("pfadt")
                                         
-                                      )
-                                      
-                                    )
-                                    
-                                    ),
+                                      ))),
                            
                            
                            ### Tab 2: WWTP Maps - Contains checkbox group, select all action button, and Leaflet Map Output
@@ -125,11 +121,7 @@ ui <- fluidPage(theme = my_theme,
                                       ### Leaflet Map Output
                                       leafletOutput("map", height = 700)
                                       
-                                      ) 
-                                    
-                                    ) 
-                                    
-                                    ), 
+                                      ))), 
                            
                            
                            ### Tab 3: PFAS concentrations plot - contains select input widget and plotly output
@@ -179,58 +171,53 @@ ui <- fluidPage(theme = my_theme,
                                                 ### Plotly widget
                                                 plotlyOutput("pfa_plot", height = 800)
                                                 
-                                                ) 
-                                      ) 
-                                    
-                                    ), 
+                                                ))), 
                            
                            
+                           ### Tab 4: PFAS formation plot - same as Task 3
                            tabPanel('PFAS Formation',
                                     
                                     sidebarLayout(
                                       
                                       sidebarPanel(width = 4, 
-                                        
-                                        selectInput(
-                                          "select_location_2", label = h3("Select Location"),
-                                          choices = unique(shiny_data_final$wwtp)),
-                                        
-                                        selectizeInput(
-                                          "select_date_2", label = h3("Select Sampling Date"),
-                                          choices = unique(shiny_data_final$samp_date)),
-                                        
-                                        hr(style = "border-top: 1px solid #000000;"),
-                                        
-                                        h3('Formation Data Download'),
-                                        
-                                        tags$div('Click the button below to download the raw concentration data as a CSV file.'),
-                                        
-                                        downloadButton('diff_data', 'Download PFAS Formation Data Here'),
-                                        
-                                        tags$div('This dataset contains information on the sampling site, sampling date, sampling location within the WWTP, the specific chemical
-                                                 being measured, the effluent and influent concentrations, and the measures concentration difference.')
-                                        
-                                      ), # end sidebarPanel
-                                      
+                                                   
+                                                   ### selectize inputs
+                                                   selectInput(
+                                                     "select_location_2", label = h3("Select Location"),
+                                                     choices = unique(shiny_data_final$wwtp)),
+                                                   
+                                                   selectizeInput(
+                                                     "select_date_2", label = h3("Select Sampling Date"),
+                                                     choices = unique(shiny_data_final$samp_date)),
+                                                   
+                                                   hr(style = "border-top: 1px solid #000000;"),
+                                                   
+                                                   h3('Formation Data Download'),
+                                                   
+                                                   tags$div('Click the button below to download the raw concentration data as a CSV file.'),
+                                                   
+                                                   ### download button
+                                                   downloadButton('diff_data', 'Download PFAS Formation Data Here'),
+                                                   
+                                                   tags$div('This dataset contains information on the sampling site, sampling date, sampling location within the WWTP, 
+                                                   the specific chemical being measured, the effluent and influent concentrations, and the measures concentration 
+                                                            difference.')
+
+                                      ), 
                                       
                                       mainPanel(width = 8,
+                                                
+                                                br(),
+                                                
+                                                includeMarkdown('formation_info.md'),
+                                                
+                                                ### plotly output
+                                                plotlyOutput("pfa_difference", height = 800)
                                         
-                                        br(),
-                                        
-                                        includeMarkdown('formation_info.md'),
-                                        
-                                        plotlyOutput("pfa_difference", height = 800)
-                                        
-                                      ) # end mainPanel
-                                      
-                                    ) # end sidebarLayout
-                                    
-                           ), # end tabPanel
+                                      ))), 
                            
-                           
-                           tabPanel('References'),
-                           
-                           
+                          
+                           ### Tab 5 - About the Author
                            tabPanel('About',
                                     
                                     fluidRow(
@@ -254,6 +241,7 @@ ui <- fluidPage(theme = my_theme,
                                                and Remediation and is interested in the prevalence of emerging pollutants and their effects on the environment as well as 
                                                applying data science to a variety of environmental applications.'),
                                              
+                                             ### Links
                                              actionButton(inputId = 'git',
                                                           label = 'Github',
                                                           icon = icon("fa-brands fa-github"),
@@ -270,13 +258,12 @@ ui <- fluidPage(theme = my_theme,
                                                           label = 'Email',
                                                           icon = icon("fa-solid fa-envelope"),
                                                           href = "mailto:tomedina@bren.ucsb.edu"),
-                                             
+                
                                              br(),
                                              
                                              br(),
                                              
-                                             HTML('<img src="bren.jpg" style="height: 120px; width:650px;"/>')
-
+                                             HTML('<img src="bren.jpg" style="height: 120px; width:650px;"/>'),
 
                                              ),
                                       
@@ -285,48 +272,37 @@ ui <- fluidPage(theme = my_theme,
                                       column(5,
                                              
                                              br(),
+                                             
                                              br(),
                                              
                                              HTML('<img src="taylor.jpg" alt="Taylor Medina" style="height: 450px; width:310px;"/>'),
                                              
-                                             
-                                            )
-                                      
-                                      
-                                    )
-                                    
-                                   
-                                    
-                )
-                           
+                                            ))))) 
 
-                           
-                           
-                           ) # end navbarPage
-
-                ) # end ui
 
 
 server <- function(input, output, session){
   
-  ### BACKGROUND
+  ### Tab 1 
+  
+  ### Download Button
   output$pfa_add_info <- downloadHandler(
-    
     filename = function(){
+      
       'pfa_add_info.xlsx'
+      
     },
     
     content = function(file){
-      write_xlsx(
-        'pfa_add_info.xlsx'
-      )
-    }
-  )
+      
+      write_xlsx('pfa_add_info.xlsx')
+      
+      })
   
   
+  ### Data Table
   output$pfadt <- renderDataTable({
     dt <- parameters[parameters$molar_mass >= input$mass_range[1] & parameters$molar_mass <= input$mass_range[2], ]},
-  
   options = list(
     pageLength = 35,
     autoWidth = TRUE,
@@ -336,21 +312,23 @@ server <- function(input, output, session){
       list(title = 'PFA'),
       list(title = 'Chemical Name'),
       list(title = 'Molar Mass (g/mol)'),
-      list(title = 'Chemical Formula'))
-  ))
+      list(title = 'Chemical Formula'))))
   
   
-  ### WIDGET 1
+  ### Tab 2 
+  
+  ### Checkbox input
   map_reactive <- reactive({
     wwtp_info %>% 
-      filter(site_name %in% input$select_site)
-    })
+      filter(site_name %in% input$select_site)})
   
   
+  ### Select All Button
   observeEvent(input$selectall,
                {if (input$selectall > 0) {
                    
                    if (input$selectall %% 2 == 0){
+                     
                      updatePrettyCheckboxGroup(session = session, 
                                                inputId = "select_site",
                                                choices = unique(wwtp_info$site_name),
@@ -358,10 +336,10 @@ server <- function(input, output, session){
                                                prettyOptions = list(animation = 'smooth',
                                                                     plain = TRUE,
                                                                     fill = TRUE,
-                                                                    icon = icon('fas fa-check'))
-                                               )}
+                                                                    icon = icon('fas fa-check')))}
                  
                    else {
+                     
                      updatePrettyCheckboxGroup(session = session, 
                                                inputId = "select_site",
                                                choices = unique(wwtp_info$site_name),
@@ -369,151 +347,136 @@ server <- function(input, output, session){
                                                prettyOptions = list(animation = 'smooth',
                                                                     plain = TRUE,
                                                                     fill = TRUE,
-                                                                    icon = icon('fas fa-check'))
-                                               )}
-                  }
+                                                                    icon = icon('fas fa-check')))}
+                 }
                  })
   
   
+  ### Leaflet Map
   output$map <- renderLeaflet({
     leaflet(wwtp_info) %>% 
       addTiles() %>% 
       setView(lng = -118, lat = 34, zoom = 7) %>% 
-      addProviderTiles("Esri.WorldImagery")
-    })
+      addProviderTiles("Esri.WorldImagery")})
   
-    
   observe({
     leafletProxy("map", data = map_reactive()) %>% 
       clearMarkers() %>% 
       addAwesomeMarkers(lng = ~ longitude_decimal_degrees,
                        lat = ~ latitude_decimal_degrees,
                        popup = ~ paste(site_name, "<br>",
-                                       "Design Flow:", flow, 'MGD', sep = " "))
-    })
+                                       "Design Flow:", flow, 'MGD', sep = " "))})
   
 
-  ### WIDGET 2
+  ### Tab 3
   
+  ### Download Button
   output$pfa_data <- downloadHandler(
-    
     filename = function(){
+      
       'pfa_data.csv'
-    },
+      
+      },
     
     content = function(file){
-      write_csv(
-        'pfa_data.csv'
-      )
-    }
-  )
+      
+      write_csv('pfa_data.csv')
+      
+    })
   
   
+  ### Selectize Input for Location
   location_reactive <- reactive({
     pfa_data_final %>% 
-      filter(wwtp == input$select_location)
-    })
+      filter(wwtp == input$select_location)})
   
   
+  ### Selectize Input for Date
   date_reactive <- reactive({
     location_reactive %>% 
-      filter(date == input$select_date)
-    })
+      filter(date == input$select_date)})
   
   
+  ### Update Selectize Input for Date based off of location 
   observeEvent(input$select_location, {
-    updateSelectizeInput(session, 
-                         input = "select_date",
+    updateSelectizeInput(session, input = "select_date", 
                          choices = pfa_data_final[pfa_data_final$wwtp %in% input$select_location, 
-                                                  "samp_date", 
-                                                  drop = TRUE])
-                  })
+                                                  "samp_date", drop = TRUE])})
 
-  
+  ### Data for ggplotly output
   plot_data <- reactive({
     pfa_data_final %>% 
     filter(wwtp == input$select_location,
-           samp_date == input$select_date)
-    })
- 
- 
+           samp_date == input$select_date)})
+  
+  
+  ### Plotly Ouput
   output$pfa_plot <- renderPlotly({
     ggplotly(
       ggplot(data = plot_data(), 
              aes(reorder(x = parameter, -mean_value), y = mean_value, fill = field_pt_name)) +
-        
-      geom_bar(stat = 'identity', position = position_dodge2(preserve = "single"), width = 0.5,
+        geom_bar(stat = 'identity', position = position_dodge2(preserve = "single"), width = 0.5,
                aes(text = paste("parameter:", parameter, "\nconcentration:", mean_value, 'ng/L', 
                                 "\nsampling location:", field_pt_name, sep = " "))) +
-        
-      guides(fill = guide_legend(title = 'sample location')) +
-      scale_fill_manual(values = c('slategrey', 'steelblue1'), drop = FALSE) +
-      labs(x = "PFA",
-           y = "concentration (ng/L)") +
-      theme_minimal(),
-      tooltip = 'text')
-    })
+        guides(fill = guide_legend(title = 'sample location')) +
+        scale_fill_manual(values = c('steelblue1', 'slategrey'), drop = FALSE) +
+        labs(x = "PFA",
+             y = "concentration (ng/L)") +
+        theme_minimal(),
+      tooltip = 'text')})
   
   
-  ### WIDGET 3
-
+  ### Tab 4
+  
+  ### Data Download
   output$diff_data <- downloadHandler(
-  
     filename = function(){
+      
       'difference_data_pfas.csv'
+      
     },
   
     content = function(file){
-      write_csv(
-        'diff_data.csv'
-      )
-    }
-  )
+      
+      write_csv('diff_data.csv')
+    
+      })
 
-
+  ### Selectize Input for Location
   location_reactive_2 <- reactive({
     shiny_data_final %>% 
-      filter(wwtp == input$select_location_2)
-    })
+      filter(wwtp == input$select_location_2)})
   
-  
+  ### Selectize Input for Date 
   date_reactive_2 <- reactive({
     location_reactive_2 %>% 
-      filter(date == input$select_date_2)
-    })
+      filter(date == input$select_date_2)})
   
-  
+  ### Update Selectize Input for Date based off of location
   observeEvent(input$select_location_2, {
-               updateSelectizeInput(session, 
-                                    input = "select_date_2",
+               updateSelectizeInput(session, input = "select_date_2",
                                     choices = shiny_data_final[shiny_data_final$wwtp %in% input$select_location_2,
-                                                               "samp_date", 
-                                                               drop = TRUE])
-                 })
+                                                               "samp_date", drop = TRUE])})
   
-  
+  ### Data for ggplotly output 
   plot_data_2 <- reactive({    
     shiny_data_final %>% 
       filter(wwtp == input$select_location_2,
              samp_date == input$select_date_2) %>% 
-      na.omit()
-    })
+      na.omit()})
   
-  
+  ### Plotly Ouput
   output$pfa_difference <- renderPlotly({
     ggplotly(
       ggplot(data = plot_data_2(), 
              aes(x = reorder(parameter, -difference), y = difference), width = 0.5) +
-        
-      geom_bar(stat = 'identity', width = 0.5,
-               aes(text = paste("parameter:", parameter, "\nconcentration difference:",
-                                difference, "ng/L", sep = " "))) +
-        
-      labs(x = "PFA",
-           y = "Concentration difference (ng/L)") +
-      theme_minimal(),
-      tooltip = 'text')
-    }) 
+        geom_bar(stat = 'identity', width = 0.5,
+                 aes(text = paste("parameter:", parameter, "\nconcentration difference:", 
+                                  difference, "ng/L", sep = " "))) +
+        labs(x = "PFA",
+             y = "Concentration difference (ng/L)") +
+        theme_minimal(),
+      tooltip = 'text')}) 
   
   
 } # end server
