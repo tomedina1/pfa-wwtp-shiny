@@ -45,7 +45,7 @@ ui <- fluidPage(theme = my_theme,
                                                    
                                                    h3('Additional Info'),
                                                    
-                                                   tags$div('Click below for additional detailed PFAs info from the',
+                                                   tags$div('Click below for additional detailed PFAS info from the',
                                                             tags$a(href="https://www.oecd.org/chemicalsafety/portal-perfluorinated-chemicals/", "OECD"), '.'),
                                                    
                                                    br(),
@@ -55,12 +55,12 @@ ui <- fluidPage(theme = my_theme,
                                                    br(),
                                                    br(),
                                                    
-                                                   p('This dataset contains additional information on PFA structures, naming conventions, regulatory status,
+                                                   p('This dataset contains additional information on PFAS structures, naming conventions, regulatory status,
                                                      historical production data, chemical sources, and ecological and human effects.'),
                                                    
                                                    br(),
                                                    
-                                                   tags$div('For additional information on the chemical and physical properties of PFAs and other chemicals, visit',
+                                                   tags$div('For additional information on the chemical and physical properties of PFAS and other chemicals, visit',
                                                             tags$a(href = "https://pubchem.ncbi.nlm.nih.gov/", "PubChem"), '.'),
                                                    
                                                    hr(style = "border-top: 1px solid #000000;"),
@@ -74,8 +74,16 @@ ui <- fluidPage(theme = my_theme,
                                                               ticks = FALSE,
                                                               sep = ""),
                                                    
-                                                   p('This slider selects a range of molar masses (g/mol) to display the PFAs being studied that have 
-                                                     masses in the selected range.')
+                                                   p('This slider selects a range of molar masses (g/mol) to display the PFAS being studied that have 
+                                                     masses in the selected range.'),
+                                                   
+                                                   br(),
+                                                   
+                                                   hr(style = "border-top: 1px solid #000000;"),
+                                                   
+                                                   ### Data Sources
+                                                   
+                                                   includeMarkdown('markdown/citation_2.md')
 
                                                   ),
                                   
@@ -84,7 +92,7 @@ ui <- fluidPage(theme = my_theme,
                                         
                                         br(),
                                         
-                                        includeMarkdown('background.md'),
+                                        includeMarkdown('markdown/background.md'),
                                         
                                         ### Data Table Widget
                                         dataTableOutput("pfadt")
@@ -108,7 +116,17 @@ ui <- fluidPage(theme = my_theme,
                                                            animation = 'smooth'),
                                                    
                                                    ### select all button
-                                                   actionButton("selectall", label = "Select / Deselect all")
+                                                   actionButton("selectall", label = "Select / Deselect all"),
+                                                   
+                                                   br(),
+                                                   
+                                                   br(),
+                                                   
+                                                   hr(style = "border-top: 1px solid #000000;"),
+                                              
+                                                   ### Data Sources
+                                                   
+                                                   includeMarkdown('markdown/citation_1.md')
                                         
                                         ), 
                                   
@@ -116,7 +134,7 @@ ui <- fluidPage(theme = my_theme,
                                       
                                       br(),
                                       
-                                      includeMarkdown('map_info.md'),
+                                      includeMarkdown('markdown/map_info.md'),
                                       
                                       ### Leaflet Map Output
                                       leafletOutput("map", height = 700)
@@ -144,13 +162,26 @@ ui <- fluidPage(theme = my_theme,
                                                    
                                                    h3('Data Download'),
                                                    
-                                                   tags$div('Click the button below to download the raw concentration data as a CSV file.'),
+                                                   tags$div('Click the button below to download the raw concentration data as a .csv.'),
+                                                   
+                                                   br(),
                                                    
                                                    ### download action button
                                                    downloadButton('pfa_data', 'Download concentration data here'),
                                                    
+                                                   br(),
+                                                   
+                                                   br(),
+                                                   
                                                    tags$div('This dataset contains information on the sampling site, sampling date, sampling 
-                                                   location within the WWTP, the specific chemical being measured, and the measured concentrations.')
+                                                   location within the WWTP, the specific chemical being measured, and the measured concentrations.'),
+                                                   
+                                                   br(),
+                                                   
+                                                   hr(style = "border-top: 1px solid #000000;"),
+                                                   
+                                                   ### Data Sources
+                                                   includeMarkdown('markdown/citation_1.md')
                                                    
                                                    ), 
                                       
@@ -161,7 +192,7 @@ ui <- fluidPage(theme = my_theme,
                                                 h3('PFAS Concentrations by Wastewater Treatment Plant'),
                                                 
                                                 tags$div('Each treatment site contains unique PFAS at differing concentrations. 
-                                                 Select a wastewater treamtent plant and sampling date to view PFAS concentrations found in the influent and 
+                                                 Select a wastewater treatment plant and sampling date to view PFAS concentrations found in the influent and 
                                                  the effluent of the water treatment site. Hover over the bars in the plot to get the concentration values.'),
                                                 
                                                 tags$style(type = "text/css",
@@ -194,14 +225,27 @@ ui <- fluidPage(theme = my_theme,
                                                    
                                                    h3('Formation Data Download'),
                                                    
-                                                   tags$div('Click the button below to download the raw concentration data as a CSV file.'),
+                                                   tags$div('Click the button below to download the raw concentration data as a .csv.'),
+                                                   
+                                                   br(),
                                                    
                                                    ### download button
                                                    downloadButton('diff_data', 'Download PFAS Formation Data Here'),
                                                    
-                                                   tags$div('This dataset contains information on the sampling site, sampling date, sampling location within the WWTP, 
-                                                   the specific chemical being measured, the effluent and influent concentrations, and the measures concentration 
-                                                            difference.')
+                                                   br(),
+                                                   
+                                                   br(),
+                                                   
+                                                   tags$div('This dataset contains information on the sampling site, sampling date, sampling location within the treatment site, 
+                                                   the specific chemical being measured, the effluent and influent concentrations, and the measured concentration 
+                                                            difference.'),
+                                                   
+                                                   br(),
+                                                   
+                                                   hr(style = "border-top: 1px solid #000000;"),
+                                                   
+                                                   ### Data Sources
+                                                   includeMarkdown('markdown/citation_1.md')
 
                                       ), 
                                       
@@ -209,7 +253,7 @@ ui <- fluidPage(theme = my_theme,
                                                 
                                                 br(),
                                                 
-                                                includeMarkdown('formation_info.md'),
+                                                includeMarkdown('markdown/formation_info.md'),
                                                 
                                                 ### plotly output
                                                 plotlyOutput("pfa_difference", height = 800)
@@ -260,6 +304,12 @@ ui <- fluidPage(theme = my_theme,
                                                           href = "mailto:tomedina@bren.ucsb.edu"),
                 
                                              br(),
+                                             
+                                             br(),
+                                             
+                                             p(style="text-align: left;",
+                                               'Special acknowledgements go to Dr. Arturo Keller and Violaine Desgens-Martin for providing ideas on what to include
+                                               as well as direction on where to access data.'), 
                                              
                                              br(),
                                              

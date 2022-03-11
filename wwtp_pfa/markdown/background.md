@@ -25,6 +25,6 @@ PFAS are readily transported in many different environments and are found in vir
 - [California Water Boards](https://www.waterboards.ca.gov/pfas/background.html)
 
 
-The PFAS Tracker uses data from the California Water Board's **[Geotracker PFA Map](https://geotracker.waterboards.ca.gov/map/pfas_map)** for different wastewater treatment sites to visualize the concentrations of PFAS across Southern California and how much the treatment process affects the formation and destruction of these chemicals. There are over 1000 + types of PFAS, each coming from different processes and time periods. This application deals with 31 different PFAS found in the studies wastewater treatment plants, each with their own unique properties and structure. The table below describes the chemical's acronym, molar mass (g/mol), and chemical formula.
+The PFAS Tracker uses data from the California Water Board's **[Geotracker PFAS Map](https://geotracker.waterboards.ca.gov/map/pfas_map)** for different wastewater treatment sites to visualize the concentrations of PFAS across Southern California and how much the treatment process affects the formation and destruction of these chemicals. There are over 1000 + types of PFAS, each coming from different processes and time periods. This application deals with 31 different PFAS found in the studied wastewater treatment plants, each with their own unique properties and structure. The table below describes the chemical's acronym, molar mass (g/mol), and chemical formula.
 
 
